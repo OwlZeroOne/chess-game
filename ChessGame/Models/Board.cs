@@ -1,5 +1,5 @@
 using System;
-using System.Collections.Generic;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace ChessGame.Models;
@@ -9,15 +9,43 @@ public class Board
     public class BoardException(string message) : Exception(message);
 
     private Square[,] _board;
+    private int _width, _height;
+    private int _posx, _posy;
 
+    private readonly int _squareSize = 75;
+    private readonly int _boardHorizontalOffset = 50;
+    private readonly int _boardVerticalOffset = 50;
+    
     public Board(GraphicsDevice graphics)
     {
+        int colorIndex = 1;
+        int currentx;
+        int currenty;
+        
         _board = new Square[8,8];
+        
         for (int i = 0; i < 8; i++)
         {
+            colorIndex = FlipColorIndex(colorIndex);
+            currenty = i * _squareSize + _boardVerticalOffset;
+            
             for (int j = 0; j < 8; j++)
             {
-                _board[i, j] = new Square(graphics, size, color, position: x, y);
+                currentx = j * _squareSize + _boardHorizontalOffset;
+                
+                switch (colorIndex)
+                {
+                    case 0:
+                        _board[i, j] = new Square(graphics, _squareSize, currentx, currenty, Color.White);
+                        break;
+                    case 1:
+                        _board[i, j] = new Square(graphics, _squareSize, currentx, currenty, Color.Black);
+                        break;
+                    default:
+                        throw new BoardException($"Failed to parse square color index - Expecting 0 or 1, but got {colorIndex}");
+                }
+                // Alternates values between 0 and 1
+                colorIndex = FlipColorIndex(colorIndex);
             }
         }
     }
@@ -42,6 +70,11 @@ public class Board
     public void Draw(SpriteBatch spriteBatch)
     {
         foreach (Square square in _board) square.Draw(spriteBatch);
+    }
+
+    private int FlipColorIndex(int currentindex)
+    {
+        return (currentindex + 1) % 2;
     }
 
     /// <summary>

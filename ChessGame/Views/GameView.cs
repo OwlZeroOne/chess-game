@@ -1,3 +1,4 @@
+using ChessGame.Models;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -5,18 +6,24 @@ namespace ChessGame.Views;
 
 public class GameView : IView
 {
+    private Board _board;
+    
     public void LoadContent(GraphicsDevice graphicsDevice)
     {
-        throw new System.NotImplementedException();
+        _board = new Board(graphicsDevice);
     }
 
     public void Update(GameTime gameTime)
     {
-        throw new System.NotImplementedException();
+        return;
     }
 
     public void Draw(GameTime gameTime, SpriteBatch spriteBatch)
     {
-        throw new System.NotImplementedException();
+        spriteBatch.Begin();
+        
+        _board.Draw(spriteBatch);
+        
+        spriteBatch.End();
     }
 }

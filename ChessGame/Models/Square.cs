@@ -7,32 +7,27 @@ namespace ChessGame.Models;
 public class Square
 {
     public class SquareException(string message) : Exception(message);
-    
-    enum SquareColor
-    {
-        White,
-        Black,
-    }
 
     private Texture2D _squareTexture;
-    private Vector2 _position;
     private Color _color;
     private IPiece _occupier;
-    private int _size;
+    private int _size, _posx, _posy;
     
     /// <summary>
     /// Check the square's occupation state.
     /// </summary>
     public bool IsOccupied { get; private set; }
 
-    public Square(GraphicsDevice graphics, int size, Color color, Vector2 position)
+    public Square(GraphicsDevice graphics, int size, int posx, int posy, Color color)
     {
-        _squareTexture = MakeSquareTexture(graphics, color);
         _color = color;
         _size = size;
-        _position = position;
+        _posx = posx;
+        _posy = posy;
         _occupier = null;
         IsOccupied = false;
+        
+        _squareTexture = MakeSquareTexture(graphics, color);
     }
 
     /// <summary>
@@ -68,7 +63,8 @@ public class Square
 
     public void Draw(SpriteBatch spriteBatch)
     {
-        spriteBatch.Draw(_squareTexture, _position, _color);
+        Rectangle rect = new Rectangle(_posx, _posy, _size, _size);
+        spriteBatch.Draw(_squareTexture, rect, _color);
         if (IsOccupied)
         {
             if (_occupier == null) throw new SquareException("Failed to draw square occupier - Occupier is null, but square is marked as occupied.");
