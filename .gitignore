@@ -1,0 +1,16 @@
+# Build/compile artifacts:
+ChessGame/bin/
+ChessGame/obj/
+
+# MonoGame content pipeline artifacts:
+ChessGame/Content/bin/
+ChessGame/Content/obj/
+.mgstats
+
+# IDE/editor files:
+.idea/
+Chessgame/.vscode/
+
+# Other
+*.user
+.vs/
