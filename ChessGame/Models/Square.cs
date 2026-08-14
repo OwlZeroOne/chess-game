@@ -12,22 +12,36 @@ public class Square
     private Color _color;
     private IPiece _occupier;
     private int _size, _posx, _posy;
+    private int _rowIndex, _colIndex;
     
     /// <summary>
     /// Check the square's occupation state.
     /// </summary>
     public bool IsOccupied { get; private set; }
 
-    public Square(GraphicsDevice graphics, int size, int posx, int posy, Color color)
+    public Square(GraphicsDevice graphics, int size, int posx, int posy, Color color, int rowIndex, int colIndex)
     {
         _color = color;
         _size = size;
         _posx = posx;
         _posy = posy;
+        _rowIndex = rowIndex;
+        _colIndex = colIndex;
         _occupier = null;
         IsOccupied = false;
         
         _squareTexture = MakeSquareTexture(graphics, color);
+    }
+
+    /// <summary>
+    /// Produce the square name by combining the square's file and rank.
+    /// </summary>
+    /// <returns>Square name as a 2-character string (e.g. "A1")</returns>
+    public string GetName()
+    {
+        int rank = 8 -  _rowIndex;
+        char file = (char)(_colIndex + 65);
+        return $"{file}{rank}";
     }
 
     /// <summary>

@@ -36,10 +36,10 @@ public class Board
                 switch (colorIndex)
                 {
                     case 0:
-                        _board[i, j] = new Square(graphics, _squareSize, currentx, currenty, Color.White);
+                        _board[i, j] = new Square(graphics, _squareSize, currentx, currenty, Color.White, i, j);
                         break;
                     case 1:
-                        _board[i, j] = new Square(graphics, _squareSize, currentx, currenty, Color.Black);
+                        _board[i, j] = new Square(graphics, _squareSize, currentx, currenty, Color.Black, i,j);
                         break;
                     default:
                         throw new BoardException($"Failed to parse square color index - Expecting 0 or 1, but got {colorIndex}");
@@ -56,10 +56,11 @@ public class Board
         return square.IsOccupied;
     }
 
-    public void MoveTo(int rank, char file, IPiece piece)
+    public void MoveTo(Square square, IPiece piece)
     {
         piece.CurrentSquare.Vacate();
-        Square square = GetSquareFromRankAndFile(rank, file);
+        square.Occupy(piece);
+        piece.SetSquare(square);
     }
     
     public Square GetSquareFromRankAndFile(int rank, char file)
