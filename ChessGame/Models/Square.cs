@@ -6,7 +6,7 @@ namespace ChessGame.Models;
 
 public class Square
 {
-    private class SquareException(string message) : Exception(message);
+    public class SquareException(string message) : Exception(message);
     
     enum SquareColor
     {
@@ -17,9 +17,12 @@ public class Square
     private Texture2D _squareTexture;
     private Vector2 _position;
     private Color _color;
-    private Piece _occupier;
+    private IPiece _occupier;
     private int _size;
     
+    /// <summary>
+    /// Check the square's occupation state.
+    /// </summary>
     public bool IsOccupied { get; private set; }
 
     public Square(GraphicsDevice graphics, int size, Color color, Vector2 position)
@@ -32,7 +35,12 @@ public class Square
         IsOccupied = false;
     }
 
-    public void Occupy(Piece newOccupier)
+    /// <summary>
+    /// Occupy this square with a given piece. If the square is occupied, attacking logic will be executed.
+    /// </summary>
+    /// <param name="newOccupier">The occupying piece.</param>
+    /// <exception cref="NotImplementedException">Attacking logic is still to be implemented.</exception>
+    public void Occupy(IPiece newOccupier)
     {
         if (IsOccupied)
         {
@@ -42,11 +50,15 @@ public class Square
         else
         {
             _occupier = newOccupier;
-            _occupier.SetCurrentSquare(this);
+            _occupier.SetSquare(this);
             IsOccupied = true;
         }
     }
 
+    /// <summary>
+    /// Vacate this square after moving out of it.
+    /// </summary>
+    /// <exception cref="SquareException">Thrown if the square is not marked as occupied.</exception>
     public void Vacate()
     {
         if (!IsOccupied) throw new SquareException("Failed to vacate square - Square is already marked as unoccupied.");

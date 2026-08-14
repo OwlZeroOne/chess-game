@@ -1,29 +1,47 @@
 using System;
 using System.Collections.Generic;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace ChessGame.Models;
 
 public class Board
 {
-    private class BoardException(string message) : Exception(message);
+    public class BoardException(string message) : Exception(message);
 
     private Square[,] _board;
 
-    public Board()
+    public Board(GraphicsDevice graphics)
     {
         _board = new Square[8,8];
         for (int i = 0; i < 8; i++)
         {
             for (int j = 0; j < 8; j++)
             {
-                _board[i, j] = new Square();
+                _board[i, j] = new Square(graphics, size, color, position: x, y);
             }
         }
     }
+
+    public bool IsSquareOccupied(int rank, char file)
+    {
+        Square square = GetSquareFromRankAndFile(rank, file);
+        return square.IsOccupied;
+    }
+
+    public void MoveTo(int rank, char file, IPiece piece)
+    {
+        piece.CurrentSquare.Vacate();
+        Square square = GetSquareFromRankAndFile(rank, file);
+    }
     
-    public Square GetSquare(int rank, char file)
+    public Square GetSquareFromRankAndFile(int rank, char file)
     {
         return _board[ParseRankIndex(rank), ParseFileIndex(file)];
+    }
+
+    public void Draw(SpriteBatch spriteBatch)
+    {
+        foreach (Square square in _board) square.Draw(spriteBatch);
     }
 
     /// <summary>
