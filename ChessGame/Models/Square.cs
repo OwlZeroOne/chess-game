@@ -9,7 +9,7 @@ public class Square
     public class SquareException(string message) : Exception(message);
 
     private Texture2D _squareTexture;
-    private Color _color;
+    private Color _squareColor;
     private IPiece _occupier;
     private int _size, _posx, _posy;
     private int _rowIndex, _colIndex;
@@ -19,9 +19,9 @@ public class Square
     /// </summary>
     public bool IsOccupied { get; private set; }
 
-    public Square(GraphicsDevice graphics, int size, int posx, int posy, Color color, int rowIndex, int colIndex)
+    public Square(GraphicsDevice graphics, int size, int posx, int posy, Color squareColor, int rowIndex, int colIndex)
     {
-        _color = color;
+        _squareColor = squareColor;
         _size = size;
         _posx = posx;
         _posy = posy;
@@ -30,7 +30,7 @@ public class Square
         _occupier = null;
         IsOccupied = false;
         
-        _squareTexture = MakeSquareTexture(graphics, color);
+        _squareTexture = MakeSquareTexture(graphics, squareColor);
     }
 
     /// <summary>
@@ -78,7 +78,7 @@ public class Square
     public void Draw(SpriteBatch spriteBatch)
     {
         Rectangle rect = new Rectangle(_posx, _posy, _size, _size);
-        spriteBatch.Draw(_squareTexture, rect, _color);
+        spriteBatch.Draw(_squareTexture, rect, _squareColor);
         if (IsOccupied)
         {
             if (_occupier == null) throw new SquareException("Failed to draw square occupier - Occupier is null, but square is marked as occupied.");
