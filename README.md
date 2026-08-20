@@ -4,17 +4,15 @@
 
 <img src="./resources/iteration2-checkerboard.png">
 
-The base checkerboard has been implemented. The board is an object of the `Board` class, which is composed of 64 `Square` class objects represented by a 2-dimentional `Square` array.
+All pieces render correctly in appropriate squares. A `PieceFactory` was implemented to allow the creation of different varieties of `IPiece` instances. Furthermore, checkerboard colours have been changed for easier visibility of the pieces.
 
-## All Iterations
-
-### Iteration 2 - Pieces Rendered
-
-<img src="./resources/iteration2-checkerboard.png">
+## Previous Iterations
 
 ### Iteration 1 - Checkerboard Completed
 
 <img src="./resources/initial-checkerboard.png">
+
+The checkerboard was produced through an `IBoard` interface, a `Board` container class object, and `Square` class objects, composing the board itself. This keeps all the board logic hidden behind the interface and separates board and square logic. The board is structured in a 2-dimensional array of `Square` objects, allowing for a more realistic manipulation of the board.
 
 [//]: # (## Design)
 
