@@ -10,8 +10,6 @@ public class Square
 
     private Texture2D _squareTexture;
     private Color _squareColor;
-    private IPiece _occupier;
-    private int _size, _posx, _posy;
     private int _rowIndex, _colIndex;
     
     /// <summary>
@@ -19,15 +17,27 @@ public class Square
     /// </summary>
     public bool IsOccupied { get; private set; }
 
-    public Square(GraphicsDevice graphics, int size, int posx, int posy, Color squareColor, int rowIndex, int colIndex)
+    public IPiece Occupant { get; private set; }
+
+    public int RowIndex => _rowIndex;
+    
+    public int ColumnIndex => _colIndex;
+
+    public int Size { get; private set; }
+    
+    public int PosX { get; private set; }
+    
+    public int PosY { get; private set; }
+
+    public Square(GraphicsDevice graphics, int size, int posX, int posY, Color squareColor, int rowIndex, int colIndex)
     {
         _squareColor = squareColor;
-        _size = size;
-        _posx = posx;
-        _posy = posy;
+        Size = size;
+        PosX = posX;
+        PosY = posY;
         _rowIndex = rowIndex;
         _colIndex = colIndex;
-        _occupier = null;
+        Occupant = null;
         IsOccupied = false;
         
         _squareTexture = MakeSquareTexture(graphics, squareColor);
@@ -58,38 +68,36 @@ public class Square
         }
         else
         {
-            _occupier = newOccupier;
-            _occupier.SetSquare(this);
+            Occupant = newOccupier;
+            Occupant.MoveTo(this);
             IsOccupied = true;
         }
     }
 
     /// <summary>
-    /// Vacate this square after moving out of it.
+    /// Free this square after a piece vacates it. If the square is already
+    /// vacated, the process is omitted.
     /// </summary>
-    /// <exception cref="SquareException">Thrown if the square is not marked as occupied.</exception>
     public void Vacate()
     {
-        if (!IsOccupied) throw new SquareException("Failed to vacate square - Square is already marked as unoccupied.");
-        IsOccupied = false;
-        _occupier = null;
+        if (IsOccupied)
+        {
+            IsOccupied = false;
+            Occupant = null;
+        }
     }
 
     public void Draw(SpriteBatch spriteBatch)
     {
-        Rectangle rect = new Rectangle(_posx, _posy, _size, _size);
+        // Console.WriteLine($"Square {GetName()} is{(Occupant != null ? "" : " not")} occupied");
+        Rectangle rect = new Rectangle(PosX, PosY, Size, Size);
         spriteBatch.Draw(_squareTexture, rect, _squareColor);
-        if (IsOccupied)
-        {
-            if (_occupier == null) throw new SquareException("Failed to draw square occupier - Occupier is null, but square is marked as occupied.");
-            _occupier.Draw(spriteBatch);
-        }
     }
 
     private Texture2D MakeSquareTexture(GraphicsDevice graphics, Color color)
     {
-        Texture2D texture =  new Texture2D(graphics, _size, _size);
-        Color[] colorArray = new Color[_size * _size];
+        Texture2D texture =  new Texture2D(graphics, Size, Size);
+        Color[] colorArray = new Color[Size * Size];
         
         for (int i = 0; i < colorArray.Length; i++)
             colorArray[i] = color;

@@ -1,20 +1,18 @@
 using System;
+using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace ChessGame.Models;
 
-public class Board
+public class Board : IBoard
 {
     public class BoardException(string message) : Exception(message);
 
     private Square[,] _board;
-    private int _width, _height;
-    private int _posx, _posy;
-
-    private readonly int _squareSize = 75;
-    private readonly int _boardHorizontalOffset = 50;
-    private readonly int _boardVerticalOffset = 50;
+    private readonly int _squareSize = BoardProperties.SquareSize;
+    private readonly int _posx = BoardProperties.PosX;
+    private readonly int _posy = BoardProperties.PosY;
     
     public Board(GraphicsDevice graphics)
     {
@@ -27,19 +25,19 @@ public class Board
         for (int i = 0; i < 8; i++)
         {
             colorIndex = FlipColorIndex(colorIndex);
-            currenty = i * _squareSize + _boardVerticalOffset;
+            currenty = i * _squareSize + _posy;
             
             for (int j = 0; j < 8; j++)
             {
-                currentx = j * _squareSize + _boardHorizontalOffset;
+                currentx = j * _squareSize + _posx;
                 
                 switch (colorIndex)
                 {
                     case 0:
-                        _board[i, j] = new Square(graphics, _squareSize, currentx, currenty, Color.White, i, j);
+                        _board[i, j] = new Square(graphics, _squareSize, currentx, currenty, BoardProperties.CheckerColor1, i, j);
                         break;
                     case 1:
-                        _board[i, j] = new Square(graphics, _squareSize, currentx, currenty, Color.Black, i,j);
+                        _board[i, j] = new Square(graphics, _squareSize, currentx, currenty, BoardProperties.CheckerColor2, i,j);
                         break;
                     default:
                         throw new BoardException($"Failed to parse square color index - Expecting 0 or 1, but got {colorIndex}");
@@ -50,22 +48,32 @@ public class Board
         }
     }
 
-    public bool IsSquareOccupied(int rank, char file)
+    public bool IsSquareOccupied(char file, int rank)
     {
         Square square = GetSquareFromRankAndFile(rank, file);
         return square.IsOccupied;
     }
 
-    public void MoveTo(Square square, IPiece piece)
+    public void PlacePiece(Square square, IPiece piece)
     {
         piece.CurrentSquare.Vacate();
         square.Occupy(piece);
-        piece.SetSquare(square);
+        piece.MoveTo(square);
+    }
+
+    public Square[,] GetArray()
+    {
+        return _board;
     }
     
     public Square GetSquareFromRankAndFile(int rank, char file)
     {
         return _board[ParseRankIndex(rank), ParseFileIndex(file)];
+    }
+
+    public void Update(GameTime gameTime)
+    {
+        
     }
 
     public void Draw(SpriteBatch spriteBatch)

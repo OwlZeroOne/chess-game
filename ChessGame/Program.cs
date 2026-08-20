@@ -1,2 +1,2 @@
-﻿using var game = new ChessGame.Game1();
+﻿using var game = new ChessGame.GameLoop();
 game.Run();
