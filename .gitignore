@@ -14,3 +14,7 @@ Chessgame/.vscode/
 # Other
 *.user
 .vs/
+*.drawio
+*.drawio.*
+assets/
+
