@@ -59,7 +59,8 @@ public class PlayerController
         {
             Square thisSquare = board[_playerColor == "white" ? 6 : 1, i];
             IPiece pawn = pf.Pawn(thisSquare);
-            thisSquare.Occupy(pawn);
+            
+            _board.PlacePiece(thisSquare, pawn);
             Pieces.Add(pawn);
         }
     }
@@ -75,8 +76,8 @@ public class PlayerController
         IPiece rook1 = pf.Rook(square1);
         IPiece rook2 = pf.Rook(square2);
         
-        square1.Occupy(rook1);
-        square2.Occupy(rook2);
+        _board.PlacePiece(square1, rook1);
+        _board.PlacePiece(square2, rook2);
         
         Pieces.Add(rook1);
         Pieces.Add(rook2);
@@ -93,8 +94,8 @@ public class PlayerController
         IPiece knight1 = pf.Knight(square1);
         IPiece knight2 = pf.Knight(square2);
         
-        square1.Occupy(knight1);
-        square2.Occupy(knight2);
+        _board.PlacePiece(square1, knight1);
+        _board.PlacePiece(square2, knight2);
         
         Pieces.Add(knight1);
         Pieces.Add(knight2);
@@ -111,8 +112,8 @@ public class PlayerController
         IPiece bishop1 = pf.Bishop(square1);
         IPiece bishop2 = pf.Bishop(square2);
         
-        square1.Occupy(bishop1);
-        square2.Occupy(bishop2);
+        _board.PlacePiece(square1, bishop1);
+        _board.PlacePiece(square2, bishop2);
         
         Pieces.Add(bishop1);
         Pieces.Add(bishop2);
@@ -124,7 +125,7 @@ public class PlayerController
         Square[,] board = _board.GetArray();
         Square square = board[rowIndex, 4];
         IPiece king = pf.King(square);
-        square.Occupy(king);
+        _board.PlacePiece(square, king);
         Pieces.Add(king);
     }
 
@@ -134,7 +135,7 @@ public class PlayerController
         Square[,] board = _board.GetArray();
         Square square = board[rowIndex, 3];
         IPiece queen = pf.Queen(square);
-        square.Occupy(queen);
+        _board.PlacePiece(square, queen);
         Pieces.Add(queen);
     }
 }
