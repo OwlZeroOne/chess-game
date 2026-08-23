@@ -33,6 +33,10 @@ flowchart TB
 
 Turn-takers can be force-switched by pressing the `Enter` key. This is a temporary feature, aimed to simulate turn-taking.
 
+## Next Step
+
+Highlighting the possible moves of selected pieces.
+
 ## Previous Iterations
 
 ### Oteration 2 - Pieces Initialized and Rendered
