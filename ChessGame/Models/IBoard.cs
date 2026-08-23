@@ -15,4 +15,10 @@ public interface IBoard
     void Update(GameTime gameTime);
     
     void Draw(SpriteBatch spriteBatch);
+    
+    void SelectSquare(Square newSquare);
+    
+    void DeselectSquare();
+
+    Square GetSquareFromPixelPosition(int x, int y);
 }

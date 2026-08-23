@@ -9,7 +9,7 @@ sealed class Bishop : Piece
 {
     public class BishopException(string message) : Exception(message); 
     
-    public Bishop(Texture2D texture, Square square, string pieceColor) :  base(texture, square, pieceColor)
+    public Bishop(Texture2D texture, Square square, PlayerPieceColor playerPieceColor) :  base(texture, square, playerPieceColor)
     {
         Value = 3;
     }

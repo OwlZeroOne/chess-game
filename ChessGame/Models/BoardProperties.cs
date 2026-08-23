@@ -28,4 +28,6 @@ public static class BoardProperties
     /// Secondary color for the checkerboard.
     /// </summary>
     public static readonly Color CheckerColor2 = new Color(237, 215, 197);
+    
+    public static readonly Color HighlightColor = Color.Goldenrod;
 }

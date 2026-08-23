@@ -7,6 +7,16 @@ namespace ChessGame.Models.Pieces;
 public class PieceFactory
 {
     public class PieceFactoryException(string message) : Exception(message);
+
+    public enum PieceTypes
+    {
+        Pawn,
+        Rook,
+        Knight,
+        Bishop,
+        Queen,
+        King
+    }
     
     public static Dictionary<string, Texture2D> Textures = new Dictionary<string, Texture2D>()
     {
@@ -23,20 +33,30 @@ public class PieceFactory
         { "b_queen", null },
         { "b_king", null },
     };
+    private PlayerPieceColor _playerPieceColor;
     private int _direction;
     private int _squareSize;
     private int _sideIndex;
-    private string _pieceColor;
     private char _texturePrefix;
 
-    public PieceFactory()
-    { }
+    public PieceFactory(PlayerPieceColor playerPieceColor)
+    {
+        _playerPieceColor = playerPieceColor;
+        switch (_playerPieceColor)
+        {
+            case PlayerPieceColor.White:
+                White();
+                break;
+            case PlayerPieceColor.Black:
+                Black();
+                break;
+        }
+    }
 
     public void Black()
     {
         _direction = 1;
         _sideIndex = 0;
-        _pieceColor = "black";
         _texturePrefix = 'b';
     }
 
@@ -44,38 +64,59 @@ public class PieceFactory
     {
         _direction = -1;
         _sideIndex = 7;
-        _pieceColor = "white";
         _texturePrefix = 'w';
     }
 
-    public IPiece Pawn(Square square)
+    public IPiece CreatePiece(PieceTypes type, Square square)
     {
-        return new Pawn(Textures[$"{_texturePrefix}_pawn"], square, _pieceColor);
+        string key = $"{_texturePrefix}_{type.ToString().ToLower()}";
+        try
+        {
+            return type switch
+            {
+                PieceTypes.Pawn => Pawn(key, square),
+                PieceTypes.Rook => Rook(key, square),
+                PieceTypes.Knight => Knight(key, square),
+                PieceTypes.Bishop => Bishop(key, square),
+                PieceTypes.Queen => Queen(key, square),
+                PieceTypes.King => King(key, square),
+                _ => throw new PieceFactoryException($"Unknown piece type: {type}")
+            };
+        }
+        catch (KeyNotFoundException e)
+        {
+            throw new PieceFactoryException($"Attempted to create a {type.ToString().ToLower()} but could not find the key {key}");
+        }
     }
 
-    public IPiece Rook(Square square)
+    private IPiece Pawn(string key, Square square)
     {
-        return new Rook(Textures[$"{_texturePrefix}_rook"], square, _pieceColor);
+        return new Pawn(Textures[key], square, _playerPieceColor);
     }
 
-    public IPiece Bishop(Square square)
+    private IPiece Rook(string key, Square square)
     {
-        return new Bishop(Textures[$"{_texturePrefix}_bishop"], square, _pieceColor);
+        return new Rook(Textures[key], square, _playerPieceColor);
     }
 
-    public IPiece Knight(Square square)
+    private IPiece Bishop(string key, Square square)
     {
-        return new Knight(Textures[$"{_texturePrefix}_knight"], square, _pieceColor);
+        return new Bishop(Textures[key], square, _playerPieceColor);
     }
 
-    public IPiece Queen(Square square)
+    private IPiece Knight(string key, Square square)
     {
-        return new Queen(Textures[$"{_texturePrefix}_queen"], square, _pieceColor);
+        return new Knight(Textures[key], square, _playerPieceColor);
     }
 
-    public IPiece King(Square square)
+    private IPiece Queen(string key, Square square)
     {
-        return new King(Textures[$"{_texturePrefix}_king"], square, _pieceColor);
+        return new Queen(Textures[key], square, _playerPieceColor);
+    }
+
+    private IPiece King(string key, Square square)
+    {
+        return new King(Textures[key], square, _playerPieceColor);
     }
 }
 

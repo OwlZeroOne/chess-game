@@ -1,4 +1,5 @@
-﻿using ChessGame.Models.Pieces;
+﻿using System.Collections.Generic;
+using ChessGame.Models.Pieces;
 using ChessGame.Views;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -11,7 +12,7 @@ public class GameLoop : Game
     private GraphicsDeviceManager _graphics;
     private SpriteBatch _spriteBatch;
     private IView _currentView;
-
+    
     public GameLoop()
     {
         _graphics = new GraphicsDeviceManager(this);
@@ -58,7 +59,8 @@ public class GameLoop : Game
             Exit();
 
         // TODO: Add your update logic here
-        _currentView.Update(gameTime);
+        _currentView.Update(gameTime, Mouse.GetState(), Keyboard.GetState());
+        
         base.Update(gameTime);
     }
 

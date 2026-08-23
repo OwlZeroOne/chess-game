@@ -3,30 +3,29 @@ using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace ChessGame.Models;
+namespace ChessGame.Models.Pieces;
 
 sealed class Pawn : Piece
 {
     public class PawnException(string message) : Exception(message);
     
     private bool _firstMove;
-    private int _promotionRowIndex;
+    private readonly int _promotionRowIndex;
     
-    public Pawn(Texture2D texture, Square square, string pieceColor) : base(texture, square, pieceColor)
+    public Pawn(Texture2D texture, Square square, PlayerPieceColor playerPieceColor) : base(texture, square, playerPieceColor)
     {
-        if (pieceColor == "white")
+        switch (playerPieceColor)
         {
-            _promotionRowIndex = 0;
-            _firstMove = _currentSquare.RowIndex == 6;
-        }
-        else if (pieceColor == "black")
-        {
-            _promotionRowIndex = 7;
-            _firstMove = _currentSquare.RowIndex == 1;
-        }
-        else
-        {
-            throw new PawnException($"Invalid piece pieceColor. Expecting 'white' or 'black'; got {pieceColor}.");
+            case PlayerPieceColor.White:
+                _promotionRowIndex = 0;
+                _firstMove = _currentSquare.RowIndex == 6;
+                break;
+            case PlayerPieceColor.Black:
+                _promotionRowIndex = 7;
+                _firstMove = _currentSquare.RowIndex == 1;
+                break;
+            default:
+                throw new PawnException($"Invalid piece pieceColor. Expecting 'white' or 'black'; got {playerPieceColor}.");
         }
 
         Value = 1;

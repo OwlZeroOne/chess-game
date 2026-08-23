@@ -9,7 +9,7 @@ sealed class Knight : Piece
 {
     public class KnightException(string message) : Exception(message);
 
-    public Knight(Texture2D texture, Square square, string pieceColor) : base(texture, square, pieceColor)
+    public Knight(Texture2D texture, Square square, PlayerPieceColor playerPieceColor) : base(texture, square, playerPieceColor)
     {
         Value = 3;
     }

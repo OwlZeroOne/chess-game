@@ -11,7 +11,7 @@ sealed class Rook : Piece
 
     private bool _canTower;
 
-    public Rook(Texture2D texture, Square square, string pieceColor) : base(texture, square, pieceColor)
+    public Rook(Texture2D texture, Square square, PlayerPieceColor playerPieceColor) : base(texture, square, playerPieceColor)
     {
         Value = 5;
     }
@@ -43,7 +43,7 @@ sealed class Rook : Piece
                 Square square = board[i, j];
                 if (square.IsOccupied)
                 {
-                    if (square.Occupant.PieceColor != PieceColor)
+                    if (square.Occupant.PieceColor != _playerPieceColor)
                         possibleMoves.Add(square);
                     
                     break;
@@ -66,7 +66,7 @@ sealed class Rook : Piece
                 Square square = board[i, j];
                 if (square.IsOccupied)
                 {
-                    if (square.Occupant.PieceColor != PieceColor)
+                    if (square.Occupant.PieceColor != _playerPieceColor)
                         possibleMoves.Add(square);
                     
                     break;

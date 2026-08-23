@@ -12,6 +12,11 @@ public interface IPiece
     public Square CurrentSquare { get; }
     
     /// <summary>
+    /// Returns the piece color enum.
+    /// </summary>
+    public PlayerPieceColor PieceColor { get; }
+    
+    /// <summary>
     /// Returns the list of legal moves property consisting of Square objects. Varies between different Piece types.
     /// </summary>
     public List<Square> PossibleMoves { get; }
@@ -20,11 +25,6 @@ public interface IPiece
     /// Returns the worth value property that corresponds to the piece. Varies between different Piece types.
     /// </summary>
     public int Value { get; }
-    
-    /// <summary>
-    /// Returns the piece color property.
-    /// </summary>
-    public string PieceColor { get; }
     
     /// <summary>
     /// Update Piece logic. To be called from the client's Update() method.

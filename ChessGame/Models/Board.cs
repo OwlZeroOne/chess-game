@@ -10,10 +10,11 @@ public class Board : IBoard
     public class BoardException(string message) : Exception(message);
 
     private Square[,] _board;
+    private Square _selectedSquare;
     private readonly int _squareSize = BoardProperties.SquareSize;
     private readonly int _posx = BoardProperties.PosX;
     private readonly int _posy = BoardProperties.PosY;
-    
+
     public Board(GraphicsDevice graphics)
     {
         int colorIndex = 1;
@@ -46,6 +47,21 @@ public class Board : IBoard
                 colorIndex = FlipColorIndex(colorIndex);
             }
         }
+        _selectedSquare = null;
+    }
+
+    public void SelectSquare(Square square)
+    {
+        if (_selectedSquare != null) _selectedSquare.Deselect();
+        _selectedSquare = square;
+        _selectedSquare.Select();
+    }
+
+    public void DeselectSquare()
+    {
+        if (_selectedSquare == null) return;
+        _selectedSquare.Deselect();
+        _selectedSquare = null;
     }
 
     public bool IsSquareOccupied(char file, int rank)
@@ -79,6 +95,16 @@ public class Board : IBoard
     public void Draw(SpriteBatch spriteBatch)
     {
         foreach (Square square in _board) square.Draw(spriteBatch);
+    }
+
+    public Square GetSquareFromPixelPosition(int x, int y)
+    {
+        foreach (Square sqr in _board)
+        {
+            if (x >= sqr.PosX && x <= sqr.PosX + sqr.Size && y >= sqr.PosY && y <= sqr.PosY + sqr.Size)
+                return sqr;
+        }
+        return null;
     }
 
     private int FlipColorIndex(int currentindex)

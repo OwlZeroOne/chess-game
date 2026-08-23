@@ -1,12 +1,45 @@
 # MonoGame Chess
 
-## Current Game State (Iteration 2)
+## Current Game State (Iteration 3)
+
+<img src="resources/iteration3-checkerboard.gif" alt="iteration3-checkerboard">
+
+Square selection has been implemented and restricted to the current Turn-Taker. Upon hovering over and clicking on the square that is occupied by a friendly piece, the square will be highlighted, on which the possible move squares will also be highlighted in a later iteration. If the user clicks anywhere else, other than the highlighted square, that square will become deselected.
+
+Square selection control flow follows the diagram below:
+
+```mermaid
+flowchart TB
+    start([START])
+    lmbclicked{Left Mouse Button Pressed?}
+    or{Null Square? OR Square Unoccupied? OR Own Piece?}
+    selectednull{Selected Square Null?}
+    deselect[[Deselect]]
+    deselect1[[Deselect]]
+    select[[Select]]
+    nd([END])
+    
+    start --> lmbclicked
+    lmbclicked -- Yes --> or
+    or -- True --> deselect
+    or -- False --> selectednull
+    selectednull -- No --> deselect1
+    selectednull -- Yes --> select
+    deselect1 --> select
+    select --> nd
+    deselect --> nd
+    lmbclicked -- No --> nd
+```
+
+Turn-takers can be force-switched by pressing the `Enter` key. This is a temporary feature, aimed to simulate turn-taking.
+
+## Previous Iterations
+
+### Oteration 2 - Pieces Initialized and Rendered
 
 <img src="./resources/iteration2-checkerboard.png">
 
 All pieces render correctly in appropriate squares. A `PieceFactory` was implemented to allow the creation of different varieties of `IPiece` instances. Furthermore, checkerboard colours have been changed for easier visibility of the pieces.
-
-## Previous Iterations
 
 ### Iteration 1 - Checkerboard Completed
 

@@ -9,24 +9,45 @@ public class Square
     public class SquareException(string message) : Exception(message);
 
     private Texture2D _squareTexture;
+    private Texture2D _highlightTexture;
+    
     private Color _squareColor;
     private int _rowIndex, _colIndex;
+    private bool _isSelected;
     
     /// <summary>
-    /// Check the square's occupation state.
+    /// Square's occupation state.
     /// </summary>
     public bool IsOccupied { get; private set; }
 
+    /// <summary>
+    /// Square's current occupant.
+    /// </summary>
     public IPiece Occupant { get; private set; }
 
+    /// <summary>
+    /// Row index, relative to the board.
+    /// </summary>
     public int RowIndex => _rowIndex;
     
+    /// <summary>
+    /// Column index, relative to the board.
+    /// </summary>
     public int ColumnIndex => _colIndex;
-
+    
+    /// <summary>
+    /// Square size in pixels.
+    /// </summary>
     public int Size { get; private set; }
     
+    /// <summary>
+    /// Squares position's x-axis pixel.
+    /// </summary>
     public int PosX { get; private set; }
     
+    /// <summary>
+    /// Square position's y-axis
+    /// </summary>
     public int PosY { get; private set; }
 
     public Square(GraphicsDevice graphics, int size, int posX, int posY, Color squareColor, int rowIndex, int colIndex)
@@ -41,6 +62,7 @@ public class Square
         IsOccupied = false;
         
         _squareTexture = MakeSquareTexture(graphics, squareColor);
+        _highlightTexture = MakeSquareTexture(graphics, BoardProperties.HighlightColor);
     }
 
     /// <summary>
@@ -87,11 +109,32 @@ public class Square
         }
     }
 
+    public void Select()
+    {
+        _isSelected = true;
+    }
+
+    public void Deselect()
+    {
+        _isSelected = false;
+    }
+
     public void Draw(SpriteBatch spriteBatch)
     {
-        // Console.WriteLine($"Square {GetName()} is{(Occupant != null ? "" : " not")} occupied");
-        Rectangle rect = new Rectangle(PosX, PosY, Size, Size);
-        spriteBatch.Draw(_squareTexture, rect, _squareColor);
+        if (_isSelected)
+        {
+            Rectangle highlightRect = new Rectangle(PosX, PosY, Size, Size);
+            Color highlightColor = BoardProperties.HighlightColor;
+            
+            highlightColor.A = _isSelected ? (byte)(255 * 0.5) : (byte)0;
+            
+            spriteBatch.Draw(_highlightTexture, highlightRect, highlightColor);
+        }
+        else
+        {
+            Rectangle rect = new Rectangle(PosX, PosY, Size, Size);
+            spriteBatch.Draw(_squareTexture, rect, _squareColor);
+        }
     }
 
     private Texture2D MakeSquareTexture(GraphicsDevice graphics, Color color)
