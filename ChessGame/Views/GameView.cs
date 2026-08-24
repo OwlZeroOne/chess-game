@@ -49,10 +49,10 @@ public class GameView : IView
 
     public void Update(GameTime gameTime, MouseState mouseState, KeyboardState keyboardState)
     {
-        if (mouseState.LeftButton == ButtonState.Pressed)
+        if (mouseState.LeftButton == ButtonState.Pressed && mouseState != _lastMouseState)
         {
             Square square = _board.GetSquareFromPixelPosition(mouseState.X, mouseState.Y);
-            _controllers[_turn].SelectSquare(square);
+            _controllers[_turn].ClickSquare(square);
         }
 
         // (TEMPORARY) Force next turn.

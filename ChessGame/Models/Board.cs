@@ -11,6 +11,7 @@ public class Board : IBoard
 
     private Square[,] _board;
     private Square _selectedSquare;
+    private readonly List<Square> _possibleMoves;
     private readonly int _squareSize = BoardProperties.SquareSize;
     private readonly int _posx = BoardProperties.PosX;
     private readonly int _posy = BoardProperties.PosY;
@@ -22,6 +23,7 @@ public class Board : IBoard
         int currenty;
         
         _board = new Square[8,8];
+        _possibleMoves = new List<Square>();
         
         for (int i = 0; i < 8; i++)
         {
@@ -50,17 +52,50 @@ public class Board : IBoard
         _selectedSquare = null;
     }
 
-    public void SelectSquare(Square square)
+    public void OnSquareClicked(Square square, PlayerController controller)
     {
-        if (_selectedSquare != null) _selectedSquare.Deselect();
-        _selectedSquare = square;
-        _selectedSquare.Select();
+        DeselectSquare();
+
+        if (square == null)
+        {
+            ClearHighlights();
+        }
+        else if (square.IsOccupied)
+        {
+            IPiece occupant =  square.Occupant;
+            if (occupant.PieceColor == controller.PieceColor)
+            {
+                ClearHighlights();
+                if (_selectedSquare != null) _selectedSquare.Unhighlight();
+                _selectedSquare = square;
+                _selectedSquare.Highlight();
+                HighlightPossibleMovesFromSelectedSquare();
+            }
+            else
+            {
+                if (_possibleMoves.Contains(square))
+                {
+                    // TODO: Move Piece to square
+                    Console.WriteLine($"Board.OnSquareClicked(): Move piece to square {square.GetName()}");
+                }
+                ClearHighlights();
+            }
+        }
+        else
+        {
+            if (_possibleMoves.Contains(square))
+            {
+                // TODO: Move Piece to square
+                Console.WriteLine($"Board.OnSquareClicked(): Move piece to square {square.GetName()}");
+            }
+            ClearHighlights();
+        }
     }
 
     public void DeselectSquare()
     {
         if (_selectedSquare == null) return;
-        _selectedSquare.Deselect();
+        _selectedSquare.Unhighlight();
         _selectedSquare = null;
     }
 
@@ -107,9 +142,38 @@ public class Board : IBoard
         return null;
     }
 
-    private int FlipColorIndex(int currentindex)
+    private void HighlightPossibleMovesFromSelectedSquare()
     {
-        return (currentindex + 1) % 2;
+        _possibleMoves.Clear();
+        
+        if (_selectedSquare != null)
+        {
+            List<Square> moves = _selectedSquare.Occupant.GetPossibleMoves(this);
+            if (moves == null)
+            {
+                Console.WriteLine("ERROR: Null reference to the list of possible moves. Empty list expected for no possible moves.");
+                return;
+            }
+            
+            foreach (Square square in moves)
+            {
+                square.Highlight();
+                _possibleMoves.Add(square);
+            }
+        }
+    }
+
+    private void ClearHighlights()
+    {
+        foreach (Square square in _possibleMoves)
+            square.Unhighlight();
+        
+        _possibleMoves.Clear();
+    }
+
+    private int FlipColorIndex(int currentIndex)
+    {
+        return (currentIndex + 1) % 2;
     }
 
     /// <summary>

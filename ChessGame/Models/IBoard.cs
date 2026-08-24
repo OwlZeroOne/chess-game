@@ -16,7 +16,7 @@ public interface IBoard
     
     void Draw(SpriteBatch spriteBatch);
     
-    void SelectSquare(Square newSquare);
+    void OnSquareClicked(Square newSquare, PlayerController controller);
     
     void DeselectSquare();
 

@@ -17,12 +17,11 @@ sealed class King : Piece
     public override void Update(GameTime gameTime)
     {
         // TODO: Implement King.Update()
-        throw new NotImplementedException();
     }
 
     public override List<Square> GetPossibleMoves(IBoard board)
     {
         // TODO: Implement King.GetPossibleMove()
-        throw new NotImplementedException();
+        return null;
     }
 }

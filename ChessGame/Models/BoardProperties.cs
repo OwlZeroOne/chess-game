@@ -19,6 +19,8 @@ public static class BoardProperties
     /// </summary>
     public static readonly int PosY = 50;
     
+    public static readonly int SquareHighlightBorderWidth = 2;
+    
     /// <summary>
     /// Primary color for the checkerboard.
     /// </summary>
@@ -29,5 +31,8 @@ public static class BoardProperties
     /// </summary>
     public static readonly Color CheckerColor2 = new Color(237, 215, 197);
     
-    public static readonly Color HighlightColor = Color.Goldenrod;
+    public static readonly Color SquareHighlightColor = Color.Goldenrod;
+    
+    
+    public static readonly Color BorderColor = Color.Black;
 }

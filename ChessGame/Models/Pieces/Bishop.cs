@@ -17,12 +17,12 @@ sealed class Bishop : Piece
     public override void Update(GameTime gameTime)
     {
         // TODO: Implement Bishop.Update()
-        throw new System.NotImplementedException();
+        return;
     }
 
     public override List<Square> GetPossibleMoves(IBoard board)
     {
         // TODO: Implement Bishop.GetPossibleMoves()
-        throw new System.NotImplementedException();
+        return null;
     }
 }

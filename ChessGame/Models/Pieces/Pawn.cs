@@ -81,14 +81,15 @@ sealed class Pawn : Piece
     {
         List<Square> squares = new List<Square>();
         int once = i + 1*_direction;
-        int twice = j + 2*_direction;
+        int twice = i + 2*_direction;
         try
         {
-            if (board[once,j].IsOccupied) squares.Add(board[once,j]);
-            if (_firstMove && board[twice,j].IsOccupied) squares.Add(board[twice,j]);
+            if (!board[once, j].IsOccupied) squares.Add(board[once, j]);
+            if (_firstMove && !board[twice, j].IsOccupied) squares.Add(board[twice, j]);
         }
         catch (IndexOutOfRangeException e)
         { }
+        
         return squares;
     }
 

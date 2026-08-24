@@ -17,14 +17,14 @@ public interface IPiece
     public PlayerPieceColor PieceColor { get; }
     
     /// <summary>
-    /// Returns the list of legal moves property consisting of Square objects. Varies between different Piece types.
-    /// </summary>
-    public List<Square> PossibleMoves { get; }
-    
-    /// <summary>
     /// Returns the worth value property that corresponds to the piece. Varies between different Piece types.
     /// </summary>
     public int Value { get; }
+
+    /// <summary>
+    /// Returns the list of legal moves consisting of Square objects. Varies between different Piece types.
+    /// </summary>
+    public List<Square> GetPossibleMoves(IBoard board);
     
     /// <summary>
     /// Update Piece logic. To be called from the client's Update() method.

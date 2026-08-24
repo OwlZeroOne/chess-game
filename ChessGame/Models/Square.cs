@@ -10,10 +10,11 @@ public class Square
 
     private Texture2D _squareTexture;
     private Texture2D _highlightTexture;
+    private Texture2D _highlightBorderTexture;
     
     private Color _squareColor;
     private int _rowIndex, _colIndex;
-    private bool _isSelected;
+    private bool _isHighlighted;
     
     /// <summary>
     /// Square's occupation state.
@@ -62,7 +63,8 @@ public class Square
         IsOccupied = false;
         
         _squareTexture = MakeSquareTexture(graphics, squareColor);
-        _highlightTexture = MakeSquareTexture(graphics, BoardProperties.HighlightColor);
+        _highlightTexture = MakeSquareTexture(graphics, BoardProperties.SquareHighlightColor);
+        _highlightBorderTexture = MakeSquareTexture(graphics, BoardProperties.BorderColor);
     }
 
     /// <summary>
@@ -109,26 +111,26 @@ public class Square
         }
     }
 
-    public void Select()
+    public void Highlight()
     {
-        _isSelected = true;
+        _isHighlighted = true;
     }
 
-    public void Deselect()
+    public void Unhighlight()
     {
-        _isSelected = false;
+        _isHighlighted = false;
     }
 
     public void Draw(SpriteBatch spriteBatch)
     {
-        if (_isSelected)
+        if (_isHighlighted)
         {
-            Rectangle highlightRect = new Rectangle(PosX, PosY, Size, Size);
-            Color highlightColor = BoardProperties.HighlightColor;
+            int borderWidth = BoardProperties.SquareHighlightBorderWidth;
+            Rectangle borderRect = new Rectangle(PosX, PosY, Size, Size);
+            Rectangle highlightRect = new Rectangle(PosX + borderWidth, PosY + borderWidth, Size - (2*borderWidth), Size - (2*borderWidth));
             
-            highlightColor.A = _isSelected ? (byte)(255 * 0.5) : (byte)0;
-            
-            spriteBatch.Draw(_highlightTexture, highlightRect, highlightColor);
+            spriteBatch.Draw(_highlightBorderTexture, borderRect, BoardProperties.BorderColor);
+            spriteBatch.Draw(_highlightTexture, highlightRect, BoardProperties.SquareHighlightColor);
         }
         else
         {

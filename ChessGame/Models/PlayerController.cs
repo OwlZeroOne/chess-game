@@ -17,11 +17,21 @@ public class PlayerController
     public int BishopCount { get; private set; }
     public int QueenCount { get; private set; }
     public int KingCount { get; private set; }
-    
+    public int Score { get; private set; }
     public PlayerPieceColor PieceColor {get; private set; }
-    
-    public int Points { get; private set; }
     public List<IPiece> Pieces { get; private set; }
+    
+    public int Points
+    {
+        get
+        {
+            int total = 0;
+            foreach (IPiece piece in Pieces)
+                total += piece.Value;
+            
+            return total;
+        }
+    }
 
     public PlayerController(IBoard board, PlayerPieceColor playerPieceColor)
     {
@@ -46,12 +56,9 @@ public class PlayerController
         InitKing(factory);
     }
 
-    public void SelectSquare(Square square)
+    public void ClickSquare(Square square)
     {
-        if (square == null || !square.IsOccupied || square.Occupant.PieceColor != PieceColor)
-            _board.DeselectSquare();
-        
-        else _board.SelectSquare(square);
+        _board.OnSquareClicked(square, this);
     }
 
     private void InitPawns(PieceFactory pf)

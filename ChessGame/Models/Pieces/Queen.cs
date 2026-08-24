@@ -17,12 +17,11 @@ sealed class Queen : Piece
     public override void Update(GameTime gameTime)
     {
         // TODO: Implement Queen.Update()
-        throw new NotImplementedException();
     }
 
     public override List<Square> GetPossibleMoves(IBoard board)
     {
         // TODO: Implement Queen.GetPossibleMoves()
-        throw new NotImplementedException();
+        return null;
     }
 }

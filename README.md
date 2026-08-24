@@ -1,45 +1,28 @@
 # MonoGame Chess
 
-## Current Game State (Iteration 3)
+## Current Game State (Iteration 4)
+
+<img src="resources/iteration4-checkerboard.gif" alt="iteration4-checkerboard">
+
+Possible move highlighting is currently visible from pieces that would have a move in the initial state of the board - i.e. only Pawns and Knights can make a move; everyone else is blocked. To further implement and test possible moves for those pieces, either movement logic will need to be implemented (to move blocking pieces out of the way), or some sort of method that can temporarily remove pieces from the board.
+
+In addition to possible move highlighting, a boarder has been introduced to highlighted squares, creating a visible boundary for each highlighted square. This will alow players to distinfuish beten adjecent squarece where they would like to place their piece on.
+
+## Next Steps
+
+Implement piece movement, with respect to their role in the game, and complete possible move highlighting for other pieces.
+
+## Previous Iterations
+
+## Iteration 3 - Possible Moves Highlighted Partially Implemented
 
 <img src="resources/iteration3-checkerboard.gif" alt="iteration3-checkerboard">
 
 Square selection has been implemented and restricted to the current Turn-Taker. Upon hovering over and clicking on the square that is occupied by a friendly piece, the square will be highlighted, on which the possible move squares will also be highlighted in a later iteration. If the user clicks anywhere else, other than the highlighted square, that square will become deselected.
 
-Square selection control flow follows the diagram below:
-
-```mermaid
-flowchart TB
-    start([START])
-    lmbclicked{Left Mouse Button Pressed?}
-    or{Null Square? OR Square Unoccupied? OR Own Piece?}
-    selectednull{Selected Square Null?}
-    deselect[[Deselect]]
-    deselect1[[Deselect]]
-    select[[Select]]
-    nd([END])
-    
-    start --> lmbclicked
-    lmbclicked -- Yes --> or
-    or -- True --> deselect
-    or -- False --> selectednull
-    selectednull -- No --> deselect1
-    selectednull -- Yes --> select
-    deselect1 --> select
-    select --> nd
-    deselect --> nd
-    lmbclicked -- No --> nd
-```
-
 Turn-takers can be force-switched by pressing the `Enter` key. This is a temporary feature, aimed to simulate turn-taking.
 
-## Next Step
-
-Highlighting the possible moves of selected pieces.
-
-## Previous Iterations
-
-### Oteration 2 - Pieces Initialized and Rendered
+### Iteration 2 - Pieces Initialized and Rendered
 
 <img src="./resources/iteration2-checkerboard.png">
 
