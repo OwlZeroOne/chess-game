@@ -1,15 +1,15 @@
 using System;
 using System.Collections.Generic;
-using ChessGame.Models.Pieces;
+using ChessGame.Screens.Game.Model.Pieces;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace ChessGame.Models;
+namespace ChessGame.Screens.Game.Model;
 
 public class PlayerController
 {
     public class ControllerException(string message) : Exception(message);
     
-    private readonly IBoard _board;
+    private readonly Board _board;
     
     public int PawnCount { get; private set; }
     public int RookCount { get; private set; }
@@ -18,8 +18,8 @@ public class PlayerController
     public int QueenCount { get; private set; }
     public int KingCount { get; private set; }
     public int Score { get; private set; }
-    public PlayerPieceColor PieceColor {get; private set; }
     public List<IPiece> Pieces { get; private set; }
+    public PlayerPieceColor PieceColor {get; private set; }
     
     public int Points
     {
@@ -33,13 +33,14 @@ public class PlayerController
         }
     }
 
-    public PlayerController(IBoard board, PlayerPieceColor playerPieceColor)
+    public PlayerController(Board board, PlayerPieceColor playerPieceColor)
     {
         if (playerPieceColor != PlayerPieceColor.White &&  playerPieceColor != PlayerPieceColor.Black)
             throw new ControllerException($"Invalid player color string. Expected PlayerColor.Black (1) or PlayerColor.White (2); got {playerPieceColor}.");
         
         PieceColor = playerPieceColor;
         _board = board;
+        
         Pieces = new List<IPiece>();
     }
 
@@ -56,14 +57,14 @@ public class PlayerController
         InitKing(factory);
     }
 
-    public void ClickSquare(Square square)
+    public void SelectSquare(Square square)
     {
-        _board.OnSquareClicked(square, this);
+        
     }
 
     private void InitPawns(PieceFactory pf)
     {
-        Square[,] board = _board.GetArray();
+        Square[,] board = _board.Array();
         
         for (int i = 0; i < 8; i++)
         {
@@ -80,7 +81,7 @@ public class PlayerController
     private void InitRooks(PieceFactory pf)
     {
         int rowIndex = PieceColor == PlayerPieceColor.White ? 7 : 0;
-        Square[,] board = _board.GetArray();
+        Square[,] board = _board.Array();
         
         Square square1 = board[rowIndex, 0];
         Square square2 = board[rowIndex, 7];
@@ -100,7 +101,7 @@ public class PlayerController
     private void InitKnights(PieceFactory pf)
     {
         int rowIndex = PieceColor == PlayerPieceColor.White ? 7 : 0;
-        Square[,] board = _board.GetArray();
+        Square[,] board = _board.Array();
         
         Square square1 = board[rowIndex, 1];
         Square square2 = board[rowIndex, 6];
@@ -120,7 +121,7 @@ public class PlayerController
     private void InitBishops(PieceFactory pf)
     {
         int rowIndex = PieceColor == PlayerPieceColor.White ? 7 : 0;
-        Square[,] board = _board.GetArray();
+        Square[,] board = _board.Array();
         
         Square square1 = board[rowIndex, 2];
         Square square2 = board[rowIndex, 5];
@@ -141,7 +142,7 @@ public class PlayerController
     {
         int rowIndex = PieceColor == PlayerPieceColor.White ? 7 : 0;
         
-        Square[,] board = _board.GetArray();
+        Square[,] board = _board.Array();
         Square square = board[rowIndex, 4];
         IPiece king = pf.CreatePiece(PieceFactory.PieceTypes.King, square);
         
@@ -155,7 +156,7 @@ public class PlayerController
     {
         int rowIndex = PieceColor == PlayerPieceColor.White ? 7 : 0;
         
-        Square[,] board = _board.GetArray();
+        Square[,] board = _board.Array();
         Square square = board[rowIndex, 3];
         IPiece queen = pf.CreatePiece(PieceFactory.PieceTypes.Queen, square);
         

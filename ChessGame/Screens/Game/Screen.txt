@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
+using ChessGame.Controllers;
 using ChessGame.Models;
+using ChessGame.Models.Pieces;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
@@ -8,9 +10,11 @@ using Microsoft.Xna.Framework.Input;
 
 namespace ChessGame.Views;
 
-public class GameView : IView
+public class Screen : IScreen
 {
     public class GameViewException(string message) : Exception(message);
+
+    private Controller _ctrl;
     
     private IBoard _board;
     private readonly PlayerController[] _controllers = new PlayerController[2];
@@ -20,14 +24,18 @@ public class GameView : IView
     private MouseState _lastMouseState;
     private KeyboardState _lastKeyboardState;
 
-    public GameView()
+    public Screen()
     {
+        _ctrl = new Controller();
+        
         _turn = 0;
         Console.WriteLine("Initializing GameView...");
     }
 
     public void LoadContent(GraphicsDevice graphicsDevice,  ContentManager content)
     {
+        LoadPieceTextures(content);
+        
         _font = content.Load<SpriteFont>("DefaultFont");
         
         Console.WriteLine("Loading Content...");
@@ -82,4 +90,6 @@ public class GameView : IView
         
         spriteBatch.End();
     }
+
+    
 }

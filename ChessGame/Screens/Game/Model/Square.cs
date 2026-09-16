@@ -1,20 +1,25 @@
 using System;
+using ChessGame.Screens.Game.Model.Pieces;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace ChessGame.Models;
+namespace ChessGame.Screens.Game.Model;
 
 public class Square
 {
     public class SquareException(string message) : Exception(message);
 
-    private Texture2D _squareTexture;
-    private Texture2D _highlightTexture;
-    private Texture2D _highlightBorderTexture;
-    
-    private Color _squareColor;
     private int _rowIndex, _colIndex;
-    private bool _isHighlighted;
+    
+    /// <summary>
+    /// Returns `true` if the square is currently selected.
+    /// </summary>
+    public bool IsSelected { get; private set; }
+    
+    /// <summary>
+    /// Returns `true` if the square is a member of a piece's set of possible moves.
+    /// </summary>
+    public bool IsLegalMove { get; private set; }
     
     /// <summary>
     /// Square's occupation state.
@@ -51,20 +56,15 @@ public class Square
     /// </summary>
     public int PosY { get; private set; }
 
-    public Square(GraphicsDevice graphics, int size, int posX, int posY, Color squareColor, int rowIndex, int colIndex)
+    public Square(int i, int j, int size, int posX, int posY)
     {
-        _squareColor = squareColor;
         Size = size;
         PosX = posX;
         PosY = posY;
-        _rowIndex = rowIndex;
-        _colIndex = colIndex;
+        _rowIndex = i;
+        _colIndex = j;
         Occupant = null;
         IsOccupied = false;
-        
-        _squareTexture = MakeSquareTexture(graphics, squareColor);
-        _highlightTexture = MakeSquareTexture(graphics, BoardProperties.SquareHighlightColor);
-        _highlightBorderTexture = MakeSquareTexture(graphics, BoardProperties.BorderColor);
     }
 
     /// <summary>
@@ -111,43 +111,21 @@ public class Square
         }
     }
 
-    public void Highlight()
-    {
-        _isHighlighted = true;
-    }
-
-    public void Unhighlight()
-    {
-        _isHighlighted = false;
-    }
-
-    public void Draw(SpriteBatch spriteBatch)
-    {
-        if (_isHighlighted)
-        {
-            int borderWidth = BoardProperties.SquareHighlightBorderWidth;
-            Rectangle borderRect = new Rectangle(PosX, PosY, Size, Size);
-            Rectangle highlightRect = new Rectangle(PosX + borderWidth, PosY + borderWidth, Size - (2*borderWidth), Size - (2*borderWidth));
-            
-            spriteBatch.Draw(_highlightBorderTexture, borderRect, BoardProperties.BorderColor);
-            spriteBatch.Draw(_highlightTexture, highlightRect, BoardProperties.SquareHighlightColor);
-        }
-        else
-        {
-            Rectangle rect = new Rectangle(PosX, PosY, Size, Size);
-            spriteBatch.Draw(_squareTexture, rect, _squareColor);
-        }
-    }
-
-    private Texture2D MakeSquareTexture(GraphicsDevice graphics, Color color)
-    {
-        Texture2D texture =  new Texture2D(graphics, Size, Size);
-        Color[] colorArray = new Color[Size * Size];
-        
-        for (int i = 0; i < colorArray.Length; i++)
-            colorArray[i] = color;
-        
-        texture.SetData(colorArray);
-        return texture;
-    }
+    // public void Draw(SpriteBatch spriteBatch)
+    // {
+    //     if (_isHighlighted)
+    //     {
+    //         int borderWidth = BoardProperties.SquareHighlightBorderWidth;
+    //         Rectangle borderRect = new Rectangle(PosX, PosY, Size, Size);
+    //         Rectangle highlightRect = new Rectangle(PosX + borderWidth, PosY + borderWidth, Size - (2*borderWidth), Size - (2*borderWidth));
+    //         
+    //         spriteBatch.Draw(_highlightBorderTexture, borderRect, BoardProperties.SquareBorderColor);
+    //         spriteBatch.Draw(_highlightTexture, highlightRect, BoardProperties.SquareHighlightColor);
+    //     }
+    //     else
+    //     {
+    //         Rectangle rect = new Rectangle(PosX, PosY, Size, Size);
+    //         spriteBatch.Draw(_squareTexture, rect, _squareColor);
+    //     }
+    // }
 }

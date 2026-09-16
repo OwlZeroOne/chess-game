@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 
-namespace ChessGame.Models.Pieces;
+namespace ChessGame.Screens.Game.Model.Pieces;
 
 abstract class Piece : IPiece
 {

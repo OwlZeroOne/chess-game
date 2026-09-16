@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace ChessGame.Models.Pieces;
+namespace ChessGame.Screens.Game.Model.Pieces;
 
 public class PieceFactory
 {

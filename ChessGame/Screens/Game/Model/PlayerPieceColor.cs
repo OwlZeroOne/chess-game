@@ -1,4 +1,4 @@
-namespace ChessGame.Models;
+namespace ChessGame.Screens.Game.Model;
 
 public enum PlayerPieceColor
 {

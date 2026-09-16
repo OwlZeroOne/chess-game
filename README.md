@@ -1,18 +1,248 @@
 # MonoGame Chess
 
-## Current Game State (Iteration 4)
+## Current Game State (Iteration 5.1)
+
+The change to the game's architectural design is in the works. Previously, the game's structure was depicted using the diagram below:
+
+```mermaid
+classDiagram
+    direction TB
+
+    class GameLoop {
+        <<Game>>
+        -GraphicsDeviceManager _graphics
+        -SpriteBatch _spriteBatch
+        -IView _currentView
+        +Initialize()
+        +LoadContent()
+        +Update(GameTime)
+        +Draw(GameTime)
+    }
+
+    class IView {
+        <<interface>>
+        +LoadContent(GraphicsDevice, ContentManager)
+        +Update(GameTime, MouseState, KeyboardState)
+        +Draw(GameTime, SpriteBatch)
+    }
+
+    class GameView {
+        -IBoard _board
+        -PlayerController[] _controllers
+        -SpriteFont _font
+        -int _turn
+        +LoadContent(GraphicsDevice, ContentManager)
+        +Update(GameTime, MouseState, KeyboardState)
+        +Draw(GameTime, SpriteBatch)
+    }
+
+    class IBoard {
+        <<interface>>
+        +IsSquareOccupied(char, int) bool
+        +PlacePiece(Square, IPiece)
+        +GetArray() Square[,]
+        +Update(GameTime)
+        +Draw(SpriteBatch)
+        +OnSquareClicked(Square, PlayerController)
+        +DeselectSquare()
+        +GetSquareFromPixelPosition(int, int) Square
+    }
+
+    class Board {
+        -Square[,] _board
+        -Square _selectedSquare
+        -List~Square~ _possibleMoves
+        +OnSquareClicked(Square, PlayerController)
+        +DeselectSquare()
+        +IsSquareOccupied(char, int) bool
+        +PlacePiece(Square, IPiece)
+        +GetArray() Square[,]
+        +GetSquareFromRankAndFile(int, char) Square
+        +GetSquareFromPixelPosition(int, int) Square
+        +Draw(SpriteBatch)
+        -HighlightPossibleMovesFromSelectedSquare()
+        -ClearHighlights()
+    }
+    note for Board "OnSquareClicked(): move-to-square branches\nare TODO stubs — only Console.WriteLine,\nno piece is actually moved yet"
+
+    class PlayerController {
+        -IBoard _board
+        +PlayerPieceColor PieceColor
+        +List~IPiece~ Pieces
+        +int PawnCount
+        +int RookCount
+        +int KnightCount
+        +int BishopCount
+        +int QueenCount
+        +int KingCount
+        +int Score
+        +int Points
+        +Initialize()
+        +ClickSquare(Square)
+    }
+
+    class Square {
+        -Texture2D _squareTexture
+        -bool _isHighlighted
+        +bool IsOccupied
+        +IPiece Occupant
+        +int RowIndex
+        +int ColumnIndex
+        +int Size
+        +int PosX
+        +int PosY
+        +GetName() string
+        +Occupy(IPiece)
+        +Vacate()
+        +Highlight()
+        +Unhighlight()
+        +Draw(SpriteBatch)
+    }
+
+    class IPiece {
+        <<interface>>
+        +Square CurrentSquare
+        +PlayerPieceColor PieceColor
+        +int Value
+        +GetPossibleMoves(IBoard) List~Square~
+        +Update(GameTime)
+        +Draw(SpriteBatch)
+        +MoveTo(Square)
+    }
+
+    class Piece {
+        <<abstract>>
+        #PlayerPieceColor _playerPieceColor
+        #Texture2D _texture
+        #Square _currentSquare
+        #int _direction
+        +Value int
+        +GetPossibleMoves(IBoard) List~Square~*
+        +Update(GameTime)*
+        +Draw(SpriteBatch)
+        +MoveTo(Square)
+    }
+
+    class Pawn {
+        -bool _firstMove
+        -int _promotionRowIndex
+        +GetPossibleMoves(IBoard) List~Square~
+        +CanPromote() bool
+        +Promote() IPiece
+    }
+    note for Pawn "GetPossibleMoves() implemented\nUpdate() and Promote() throw NotImplementedException"
+
+    class Rook {
+        -bool _canTower
+        +GetPossibleMoves(IBoard) List~Square~
+    }
+    note for Rook "GetPossibleMoves() only scans its column\n(forward/backward) — rank movement missing\nUpdate() throws NotImplementedException"
+
+    class Knight {
+        +GetPossibleMoves(IBoard) List~Square~
+    }
+    note for Knight "GetPossibleMoves() only covers the\n±2 row / ±1 col L-shapes — the\n±1 row / ±2 col half is TODO\nUpdate() throws NotImplementedException"
+
+    class Bishop {
+        +GetPossibleMoves(IBoard) List~Square~
+    }
+    note for Bishop "GetPossibleMoves() stub — returns null\nUpdate() is a no-op"
+
+    class Queen {
+        +GetPossibleMoves(IBoard) List~Square~
+    }
+    note for Queen "GetPossibleMoves() stub — returns null\nUpdate() is a no-op"
+
+    class King {
+        +GetPossibleMoves(IBoard) List~Square~
+    }
+    note for King "GetPossibleMoves() stub — returns null\nUpdate() is a no-op"
+
+    class PieceFactory {
+        +Dictionary~string,Texture2D~ Textures$
+        -PlayerPieceColor _playerPieceColor
+        -int _direction
+        -int _sideIndex
+        -char _texturePrefix
+        +CreatePiece(PieceTypes, Square) IPiece
+    }
+
+    class PieceTypes {
+        <<enumeration>>
+        Pawn
+        Rook
+        Knight
+        Bishop
+        Queen
+        King
+    }
+
+    class PlayerPieceColor {
+        <<enumeration>>
+        White
+        Black
+    }
+
+    class BoardProperties {
+        <<static>>
+        +int SquareSize$
+        +int PosX$
+        +int PosY$
+        +Color CheckerColor1$
+        +Color CheckerColor2$
+        +Color SquareHighlightColor$
+        +Color BorderColor$
+    }
+
+    GameLoop *-- "1" IView : _currentView
+    GameView ..|> IView
+    GameView *-- "1" IBoard : _board
+    GameView *-- "2" PlayerController : _controllers
+    Board ..|> IBoard
+    Board *-- "64" Square : _board
+    Board ..> PlayerController : OnSquareClicked(param)
+    PlayerController --> IBoard : _board
+    PlayerController "1" o-- "*" IPiece : Pieces
+    PlayerController ..> PieceFactory : Initialize()
+    Square "1" o-- "0..1" IPiece : Occupant
+    Piece ..|> IPiece
+    Pawn --|> Piece
+    Rook --|> Piece
+    Knight --|> Piece
+    Bishop --|> Piece
+    Queen --|> Piece
+    King --|> Piece
+    Piece --> PlayerPieceColor : _playerPieceColor
+    PieceFactory ..> IPiece : creates
+    PieceFactory --> PieceTypes
+    Board ..> BoardProperties : uses
+    Square ..> BoardProperties : uses
+```
+
+The goal in this iteration is to reorganise the game into cohesive components that make up the game, with the MonoGame engine being the main driver, while the MVC pattern handles management over a model and its graphical representation with the `View` component. The intended arhitectural design is as follows:
+
+<img src="./resources/intended-architecture.png">
+
+The `IScreen` interface allows for swappable screen contexts, which gives way to other screens such as "Settings".
+
+In this iteratation, the board initialisation and drawing were implemented first. It also appeared that some functionalities have been preserved, thanks to the Object-Oriented design. More specifically, amid board initialisation, player controllers are also initialised which consequently initialise their own pieces and their original positions. This is recognised by the screen's draw method, however, since the logic for drawing piece sprites is not yet re-implemented, pieces do not appear on the board, despite the player is still capable of highlighting squares where those piecese are expected to be.
+
+<img src="resources/iteration5-1-checkerboard.gif" alt="iteration5-1-checkerboard">
+
+## Next Steps
+
+- Implement piece movement, with respect to their role in the game, and complete possible move highlighting for other pieces.
+- Complete re-implementation to match the state from Iteration 4.
+
+## Previous Iterations
+
+## Iteration 4 - Possible Move Highlighting
 
 <img src="resources/iteration4-checkerboard.gif" alt="iteration4-checkerboard">
 
 Possible move highlighting is currently visible from pieces that would have a move in the initial state of the board - i.e. only Pawns and Knights can make a move; everyone else is blocked. To further implement and test possible moves for those pieces, either movement logic will need to be implemented (to move blocking pieces out of the way), or some sort of method that can temporarily remove pieces from the board.
 
 In addition to possible move highlighting, a boarder has been introduced to highlighted squares, creating a visible boundary for each highlighted square. This will alow players to distinfuish beten adjecent squarece where they would like to place their piece on.
-
-## Next Steps
-
-Implement piece movement, with respect to their role in the game, and complete possible move highlighting for other pieces.
-
-## Previous Iterations
 
 ### Iteration 3 - Possible Moves Highlighted Partially Implemented
 

@@ -1,8 +1,9 @@
 using System.Collections.Generic;
+using ChessGame.Screens.Game.Model.Pieces;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace ChessGame.Models;
+namespace ChessGame.Screens.Game.Model;
 
 public interface IBoard
 {

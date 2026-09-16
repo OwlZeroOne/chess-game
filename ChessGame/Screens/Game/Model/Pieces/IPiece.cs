@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace ChessGame.Models;
+namespace ChessGame.Screens.Game.Model.Pieces;
 
 public interface IPiece
 {
