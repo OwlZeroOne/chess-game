@@ -29,7 +29,6 @@ sealed class Pawn : Piece
         }
 
         Value = 1;
-        MakeTextureId();
     }
 
     public override void Update(GameTime gameTime)
@@ -37,12 +36,12 @@ sealed class Pawn : Piece
         throw new NotImplementedException();
     }
     
-    public override List<Square> GetPossibleMoves(IBoard board)
+    public override List<Square> GetPossibleMoves(Board board)
     {
         List<Square> possibleMoves = new List<Square>();
         int i = _currentSquare.RowIndex;
         int j = _currentSquare.ColumnIndex;
-        Square[,] boardArray = board.GetArray();
+        Square[,] boardArray = board.Array();
         possibleMoves.AddRange(CheckForwardMoves(i, j, boardArray));
         possibleMoves.AddRange(CheckAttackMoves(i, j, boardArray));
         return possibleMoves;

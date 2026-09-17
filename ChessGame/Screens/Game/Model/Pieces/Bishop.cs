@@ -12,7 +12,6 @@ sealed class Bishop : Piece
     public Bishop(Square square, PlayerPieceColor playerPieceColor) :  base(square, playerPieceColor)
     {
         Value = 3;
-        MakeTextureId();
     }
 
     public override void Update(GameTime gameTime)
@@ -21,9 +20,10 @@ sealed class Bishop : Piece
         return;
     }
 
-    public override List<Square> GetPossibleMoves(IBoard board)
+    public override List<Square> GetPossibleMoves(Board board)
     {
         // TODO: Implement Bishop.GetPossibleMoves()
-        return null;
+        List<Square> possibleMoves = new List<Square>();
+        return possibleMoves;
     }
 }

@@ -36,7 +36,7 @@ public class ScreenModel
     public void OnClick(int x, int y)
     {
         Square square = _board.GetSquareFromPixelPosition(x, y);
-        SelectSquare(square);
+        OnSquareClicked(square);
     }
 
     public List<IPiece> GetAllPieces()
@@ -49,7 +49,7 @@ public class ScreenModel
         return pieces;
     }
 
-    private void SelectSquare(Square square)
+    private void OnSquareClicked(Square square)
     {
         DeselectSquare();
 
@@ -63,11 +63,12 @@ public class ScreenModel
         {
             IPiece occupant = square.Occupant;
             // If the occupant belongs to the current player...
+            // TODO: Perhaps checking if the piece is in the list of the current player's pieces?
             if (occupant.PieceColor == CurrentPlayer.PieceColor)
             {
                 DeselectSquare();
                 SelectedSquare = square;
-                // TODO: Highlight possible moves
+                CheckPossibleMoves();
             }
             else // Otherwise...
             {
@@ -84,10 +85,15 @@ public class ScreenModel
     private void DeselectSquare()
     {
         SelectedSquare = null;
-        ClearPossibleMoveSquares();
+        ClearPossibleMovesList();
     }
 
-    private void ClearPossibleMoveSquares()
+    private void CheckPossibleMoves()
+    {
+        PossibleMoves = CurrentPlayer.GetPossibleMoves(SelectedSquare.Occupant);
+    }
+
+    private void ClearPossibleMovesList()
     {
         PossibleMoves.Clear();
     }

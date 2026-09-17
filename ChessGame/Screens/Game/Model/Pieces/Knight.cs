@@ -20,12 +20,12 @@ sealed class Knight : Piece
         throw new NotImplementedException();
     }
 
-    public override List<Square> GetPossibleMoves(IBoard board)
+    public override List<Square> GetPossibleMoves(Board board)
     {
         List<Square> possibleMoves = new List<Square>();
         int i = _currentSquare.RowIndex;
         int j = _currentSquare.ColumnIndex;
-        Square[,] boardArray = board.GetArray();
+        Square[,] boardArray = board.Array();
         possibleMoves.AddRange(CheckMovesVertical(i, j, boardArray));
         
         // TODO: Implement Knight.GetPossibleMoves()

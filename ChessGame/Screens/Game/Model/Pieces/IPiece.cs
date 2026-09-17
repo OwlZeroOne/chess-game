@@ -29,7 +29,7 @@ public interface IPiece
     /// <summary>
     /// Returns the list of legal moves consisting of Square objects. Varies between different Piece types.
     /// </summary>
-    public List<Square> GetPossibleMoves(IBoard board);
+    public List<Square> GetPossibleMoves(Board board);
     
     /// <summary>
     /// Update Piece logic. To be called from the client's Update() method.

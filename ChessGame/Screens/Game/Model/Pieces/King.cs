@@ -12,7 +12,6 @@ sealed class King : Piece
     public King(Square square, PlayerPieceColor color) : base(square, color)
     {
         Value = 0;
-        MakeTextureId();
     }
 
     public override void Update(GameTime gameTime)
@@ -20,9 +19,10 @@ sealed class King : Piece
         // TODO: Implement King.Update()
     }
 
-    public override List<Square> GetPossibleMoves(IBoard board)
+    public override List<Square> GetPossibleMoves(Board board)
     {
         // TODO: Implement King.GetPossibleMove()
-        return null;
+        List<Square> possibleMoves = new List<Square>();
+        return possibleMoves;
     }
 }

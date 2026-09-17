@@ -56,9 +56,9 @@ public class PlayerController
         InitKing(factory);
     }
 
-    public void SelectSquare(Square square)
+    public List<Square> GetPossibleMoves(IPiece piece)
     {
-        
+        return piece.GetPossibleMoves(_board);
     }
 
     private void InitPawns(PieceFactory pf)

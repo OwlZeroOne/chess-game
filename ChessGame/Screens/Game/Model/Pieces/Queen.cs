@@ -12,7 +12,6 @@ sealed class Queen : Piece
     public Queen(Square square, PlayerPieceColor color) : base(square, color)
     {
         Value = 8;
-        MakeTextureId();
     }
 
     public override void Update(GameTime gameTime)
@@ -20,9 +19,10 @@ sealed class Queen : Piece
         // TODO: Implement Queen.Update()
     }
 
-    public override List<Square> GetPossibleMoves(IBoard board)
+    public override List<Square> GetPossibleMoves(Board board)
     {
         // TODO: Implement Queen.GetPossibleMoves()
-        return null;
+        List<Square> possibleMoves = new List<Square>();
+        return possibleMoves;
     }
 }

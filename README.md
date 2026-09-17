@@ -1,18 +1,24 @@
 # MonoGame Chess
 
-## Current Game State (Iteration 5.2)
+## Current Game State (Iteration 5.3)
+
+Move detection has been brought to the same state as found in Iteration 4, and thus, the game state has been restored to how it was before Iteration 5.1. The only, negligible, difference is the absence of the label which indicated who is the current turn-taker.
+
+<img src="resources/iteration5-3-checkerboard.gif" alt="iteration5-2-checkerboard">
+
+### Next Steps
+
+- Implement piece movement, with respect to their role in the game, and complete possible move highlighting for other pieces.
+
+## Previous Iterations
+
+### Iteration 5.2 - Piece Rendering Back In Place
 
 Chess pieces are rendered on the board in appropriate initial positions. With the previous implementation, all pieces contained their own textures, which would have been assigned during the initialisation phase within the MonoGame engine. The problem with this was that the actual textures are loaded after initialisation into the `PieceFactory`, and as a consequence, pieces were built with `null` textures. This has been fixed by relocating the piece textures dictionary into `Screens.Game.View`, with an explicit method to load the textures into existing pieces using their new `TextureId` property.
 
 <img src="resources/iteration5-2-checkerboard.gif" alt="iteration5-2-checkerboard">
 
-## Next Steps
-
-- Implement piece movement, with respect to their role in the game, and complete possible move highlighting for other pieces.
-- Complete re-implementation to match the state from Iteration 4.
-  - Complete move detection
-
-## Iteration 5.1 - Architectural Redesign
+### Iteration 5.1 - Architectural Redesign
 
 The change to the game's architectural design is in the works. Previously, the game's structure was depicted using the diagram below:
 
@@ -241,9 +247,7 @@ In this iteratation, the board initialisation and drawing were implemented first
 
 <img src="resources/iteration5-1-checkerboard.gif" alt="iteration5-1-checkerboard">
 
-## Previous Iterations
-
-## Iteration 4 - Possible Move Highlighting
+### Iteration 4 - Possible Move Highlighting
 
 <img src="resources/iteration4-checkerboard.gif" alt="iteration4-checkerboard">
 
