@@ -18,21 +18,21 @@ public class PieceFactory
         King
     }
     
-    public static Dictionary<string, Texture2D> Textures = new Dictionary<string, Texture2D>()
-    {
-        { "w_pawn", null },
-        { "w_rook", null },
-        { "w_knight", null },
-        { "w_bishop", null },
-        { "w_queen", null },
-        { "w_king", null },
-        { "b_pawn", null },
-        { "b_rook", null },
-        { "b_knight", null },
-        { "b_bishop", null },
-        { "b_queen", null },
-        { "b_king", null },
-    };
+    // public static Dictionary<string, Texture2D> Textures = new()
+    // {
+    //     { "w_pawn", null },
+    //     { "w_rook", null },
+    //     { "w_knight", null },
+    //     { "w_bishop", null },
+    //     { "w_queen", null },
+    //     { "w_king", null },
+    //     { "b_pawn", null },
+    //     { "b_rook", null },
+    //     { "b_knight", null },
+    //     { "b_bishop", null },
+    //     { "b_queen", null },
+    //     { "b_king", null },
+    // };
     private PlayerPieceColor _playerPieceColor;
     private int _direction;
     private int _squareSize;
@@ -74,12 +74,12 @@ public class PieceFactory
         {
             return type switch
             {
-                PieceTypes.Pawn => Pawn(key, square),
-                PieceTypes.Rook => Rook(key, square),
-                PieceTypes.Knight => Knight(key, square),
-                PieceTypes.Bishop => Bishop(key, square),
-                PieceTypes.Queen => Queen(key, square),
-                PieceTypes.King => King(key, square),
+                PieceTypes.Pawn => Pawn(square),
+                PieceTypes.Rook => Rook(square),
+                PieceTypes.Knight => Knight(square),
+                PieceTypes.Bishop => Bishop(square),
+                PieceTypes.Queen => Queen(square),
+                PieceTypes.King => King(square),
                 _ => throw new PieceFactoryException($"Unknown piece type: {type}")
             };
         }
@@ -89,34 +89,34 @@ public class PieceFactory
         }
     }
 
-    private IPiece Pawn(string key, Square square)
+    private IPiece Pawn(Square square)
     {
-        return new Pawn(Textures[key], square, _playerPieceColor);
+        return new Pawn(square, _playerPieceColor);
     }
 
-    private IPiece Rook(string key, Square square)
+    private IPiece Rook(Square square)
     {
-        return new Rook(Textures[key], square, _playerPieceColor);
+        return new Rook(square, _playerPieceColor);
     }
 
-    private IPiece Bishop(string key, Square square)
+    private IPiece Bishop(Square square)
     {
-        return new Bishop(Textures[key], square, _playerPieceColor);
+        return new Bishop(square, _playerPieceColor);
     }
 
-    private IPiece Knight(string key, Square square)
+    private IPiece Knight(Square square)
     {
-        return new Knight(Textures[key], square, _playerPieceColor);
+        return new Knight(square, _playerPieceColor);
     }
 
-    private IPiece Queen(string key, Square square)
+    private IPiece Queen(Square square)
     {
-        return new Queen(Textures[key], square, _playerPieceColor);
+        return new Queen(square, _playerPieceColor);
     }
 
-    private IPiece King(string key, Square square)
+    private IPiece King(Square square)
     {
-        return new King(Textures[key], square, _playerPieceColor);
+        return new King(square, _playerPieceColor);
     }
 }
 

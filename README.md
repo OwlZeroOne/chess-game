@@ -1,6 +1,18 @@
 # MonoGame Chess
 
-## Current Game State (Iteration 5.1)
+## Current Game State (Iteration 5.2)
+
+Chess pieces are rendered on the board in appropriate initial positions. With the previous implementation, all pieces contained their own textures, which would have been assigned during the initialisation phase within the MonoGame engine. The problem with this was that the actual textures are loaded after initialisation into the `PieceFactory`, and as a consequence, pieces were built with `null` textures. This has been fixed by relocating the piece textures dictionary into `Screens.Game.View`, with an explicit method to load the textures into existing pieces using their new `TextureId` property.
+
+<img src="resources/iteration5-2-checkerboard.gif" alt="iteration5-2-checkerboard">
+
+## Next Steps
+
+- Implement piece movement, with respect to their role in the game, and complete possible move highlighting for other pieces.
+- Complete re-implementation to match the state from Iteration 4.
+  - Complete move detection
+
+## Iteration 5.1 - Architectural Redesign
 
 The change to the game's architectural design is in the works. Previously, the game's structure was depicted using the diagram below:
 
@@ -228,11 +240,6 @@ The `IScreen` interface allows for swappable screen contexts, which gives way to
 In this iteratation, the board initialisation and drawing were implemented first. It also appeared that some functionalities have been preserved, thanks to the Object-Oriented design. More specifically, amid board initialisation, player controllers are also initialised which consequently initialise their own pieces and their original positions. This is recognised by the screen's draw method, however, since the logic for drawing piece sprites is not yet re-implemented, pieces do not appear on the board, despite the player is still capable of highlighting squares where those piecese are expected to be.
 
 <img src="resources/iteration5-1-checkerboard.gif" alt="iteration5-1-checkerboard">
-
-## Next Steps
-
-- Implement piece movement, with respect to their role in the game, and complete possible move highlighting for other pieces.
-- Complete re-implementation to match the state from Iteration 4.
 
 ## Previous Iterations
 

@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using ChessGame.Screens.Game.Model;
 using ChessGame.Screens.Game.Model.Pieces;
 using Microsoft.Xna.Framework;
@@ -10,6 +11,8 @@ namespace ChessGame.Screens.Game;
 public class View
 {
     public class ViewException(string message) : Exception(message);
+
+    private Dictionary<string, Texture2D> _textures;
     
     private GraphicsDevice _graphics;
     private ScreenModel _model;
@@ -51,6 +54,16 @@ public class View
     public void Draw(SpriteBatch spriteBatch)
     {
         DrawBoard(spriteBatch);
+        DrawPieces(spriteBatch);
+    }
+
+    private void DrawPieces(SpriteBatch spriteBatch)
+    {
+        foreach (var piece in _model.GetAllPieces())
+        {
+            Console.WriteLine(piece.TextureId == null ? "NONE" : piece.TextureId);
+            piece.Draw(spriteBatch, _textures[piece.TextureId]);
+        }
     }
 
     private void DrawBoard(SpriteBatch spriteBatch)
@@ -134,17 +147,20 @@ public class View
 
     private void LoadPieceTextures(ContentManager content)
     {
-        PieceFactory.Textures["w_pawn"] =  content.Load<Texture2D>("Pieces/w_Pawn");
-        PieceFactory.Textures["w_rook"] =  content.Load<Texture2D>("Pieces/w_Rook");
-        PieceFactory.Textures["w_knight"] =  content.Load<Texture2D>("Pieces/w_Knight");
-        PieceFactory.Textures["w_bishop"] =  content.Load<Texture2D>("Pieces/w_Bishop");
-        PieceFactory.Textures["w_king"] =  content.Load<Texture2D>("Pieces/w_King");
-        PieceFactory.Textures["w_queen"] =  content.Load<Texture2D>("Pieces/w_Queen");
-        PieceFactory.Textures["b_pawn"] =  content.Load<Texture2D>("Pieces/b_Pawn");
-        PieceFactory.Textures["b_rook"] =  content.Load<Texture2D>("Pieces/b_Rook");
-        PieceFactory.Textures["b_knight"] =  content.Load<Texture2D>("Pieces/b_Knight");
-        PieceFactory.Textures["b_bishop"] =  content.Load<Texture2D>("Pieces/b_Bishop");
-        PieceFactory.Textures["b_king"] =  content.Load<Texture2D>("Pieces/b_King");
-        PieceFactory.Textures["b_queen"] =  content.Load<Texture2D>("Pieces/b_Queen");
+        _textures = new()
+        {
+            { "w_pawn", content.Load<Texture2D>("Pieces/w_Pawn") },
+            { "w_rook", content.Load<Texture2D>("Pieces/w_Rook") },
+            { "w_knight", content.Load<Texture2D>("Pieces/w_Knight") },
+            { "w_bishop", content.Load<Texture2D>("Pieces/w_Bishop") },
+            { "w_king", content.Load<Texture2D>("Pieces/w_King") },
+            { "w_queen", content.Load<Texture2D>("Pieces/w_Queen") },
+            { "b_pawn", content.Load<Texture2D>("Pieces/b_Pawn") },
+            { "b_rook", content.Load<Texture2D>("Pieces/b_Rook") },
+            { "b_knight", content.Load<Texture2D>("Pieces/b_Knight") },
+            { "b_bishop", content.Load<Texture2D>("Pieces/b_Bishop") },
+            { "b_king", content.Load<Texture2D>("Pieces/b_King") },
+            { "b_queen", content.Load<Texture2D>("Pieces/b_Queen") }
+        };
     }
 }

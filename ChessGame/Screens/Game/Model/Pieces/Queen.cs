@@ -9,9 +9,10 @@ sealed class Queen : Piece
 {
     public class QueenException(string message) : Exception(message);
 
-    public Queen(Texture2D texture, Square square, PlayerPieceColor color) : base(texture, square, color)
+    public Queen(Square square, PlayerPieceColor color) : base(square, color)
     {
         Value = 8;
+        MakeTextureId();
     }
 
     public override void Update(GameTime gameTime)

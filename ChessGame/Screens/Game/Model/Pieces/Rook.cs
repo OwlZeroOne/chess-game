@@ -11,9 +11,10 @@ sealed class Rook : Piece
 
     private bool _canTower;
 
-    public Rook(Texture2D texture, Square square, PlayerPieceColor playerPieceColor) : base(texture, square, playerPieceColor)
+    public Rook(Square square, PlayerPieceColor playerPieceColor) : base(square, playerPieceColor)
     {
         Value = 5;
+        MakeTextureId();
     }
 
     public override void Update(GameTime gameTime)

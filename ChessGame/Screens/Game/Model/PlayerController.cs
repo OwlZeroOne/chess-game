@@ -49,7 +49,6 @@ public class PlayerController
         PieceFactory factory = new PieceFactory(PieceColor);
         
         InitPawns(factory);
-        // Console.WriteLine("Initializing player controller");
         InitRooks(factory);
         InitKnights(factory);
         InitBishops(factory);

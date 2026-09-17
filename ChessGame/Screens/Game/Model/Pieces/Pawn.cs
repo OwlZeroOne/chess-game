@@ -12,7 +12,7 @@ sealed class Pawn : Piece
     private bool _firstMove;
     private readonly int _promotionRowIndex;
     
-    public Pawn(Texture2D texture, Square square, PlayerPieceColor playerPieceColor) : base(texture, square, playerPieceColor)
+    public Pawn(Square square, PlayerPieceColor playerPieceColor) : base(square, playerPieceColor)
     {
         switch (playerPieceColor)
         {
@@ -29,6 +29,7 @@ sealed class Pawn : Piece
         }
 
         Value = 1;
+        MakeTextureId();
     }
 
     public override void Update(GameTime gameTime)

@@ -17,6 +17,11 @@ public interface IPiece
     public PlayerPieceColor PieceColor { get; }
     
     /// <summary>
+    /// Returns texture label identifier for texture rendering.
+    /// </summary>
+    public string TextureId { get; }
+    
+    /// <summary>
     /// Returns the worth value property that corresponds to the piece. Varies between different Piece types.
     /// </summary>
     public int Value { get; }
@@ -35,7 +40,7 @@ public interface IPiece
     /// <summary>
     /// Draw the Piece. To be called from the client's Draw() method.
     /// </summary>
-    public void Draw(SpriteBatch spriteBatch);
+    public void Draw(SpriteBatch spriteBatch, Texture2D texture);
     
     /// <summary>
     /// 

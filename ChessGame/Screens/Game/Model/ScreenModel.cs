@@ -30,13 +30,23 @@ public class ScreenModel
     public void SwitchPlayer()
     {
         CurrentPlayer = CurrentPlayer == _player1 ? _player2 : _player1;
+        DeselectSquare();
     }
 
     public void OnClick(int x, int y)
     {
-        // Did we click on a square?
         Square square = _board.GetSquareFromPixelPosition(x, y);
         SelectSquare(square);
+    }
+
+    public List<IPiece> GetAllPieces()
+    {
+        List<IPiece> pieces = [];
+        foreach (IPiece piece in _player1.Pieces)
+            pieces.Add(piece);
+        foreach (IPiece piece in _player2.Pieces)
+            pieces.Add(piece);
+        return pieces;
     }
 
     private void SelectSquare(Square square)
