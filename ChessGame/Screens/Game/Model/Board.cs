@@ -31,64 +31,21 @@ public class Board
         }
     }
 
-    // public void OnSquareClicked(Square square, PlayerController controller)
-    // {
-    //     DeselectSquare();
-    //
-    //     if (square == null)
-    //     {
-    //         ClearHighlights();
-    //     }
-    //     else if (square.IsOccupied)
-    //     {
-    //         IPiece occupant =  square.Occupant;
-    //         if (occupant.PieceColor == controller.PieceColor)
-    //         {
-    //             ClearHighlights();
-    //             if (_selectedSquare != null) _selectedSquare.Unhighlight();
-    //             _selectedSquare = square;
-    //             _selectedSquare.Highlight();
-    //             HighlightPossibleMovesFromSelectedSquare();
-    //         }
-    //         else
-    //         {
-    //             if (_possibleMoves.Contains(square))
-    //             {
-    //                 // TODO: Move Piece to square
-    //                 Console.WriteLine($"Board.OnSquareClicked(): Move piece to square {square.GetName()}");
-    //             }
-    //             ClearHighlights();
-    //         }
-    //     }
-    //     else
-    //     {
-    //         if (_possibleMoves.Contains(square))
-    //         {
-    //             // TODO: Move Piece to square
-    //             Console.WriteLine($"Board.OnSquareClicked(): Move piece to square {square.GetName()}");
-    //         }
-    //         ClearHighlights();
-    //     }
-    // }
-    //
-    // public void DeselectSquare()
-    // {
-    //     if (_selectedSquare == null) return;
-    //     _selectedSquare.Unhighlight();
-    //     _selectedSquare = null;
-    // }
-
     public bool IsSquareOccupied(char file, int rank)
     {
         Square square = GetSquareFromRankAndFile(rank, file);
         return square.IsOccupied;
     }
 
-    public void PlacePiece(Square square, IPiece piece)
+    public void PlacePieceOnSquare(Square square, IPiece piece)
     {
-        piece.CurrentSquare.Vacate();
-        square.Occupy(piece);
-        piece.MoveTo(square);
+        square.SetOccupant(piece);
+    }
+
+    public void RemovePieceFromSquare(Square square)
+    {
+        Console.WriteLine("Removing piece from square {0}", square.GetName());
+        square.SetOccupant(null);
     }
 
     public Square[,] Array()
@@ -110,35 +67,6 @@ public class Board
         }
         return null;
     }
-
-    // private void HighlightPossibleMovesFromSelectedSquare()
-    // {
-    //     _possibleMoves.Clear();
-    //     
-    //     if (_selectedSquare != null)
-    //     {
-    //         List<Square> moves = _selectedSquare.Occupant.GetPossibleMoves(this);
-    //         if (moves == null)
-    //         {
-    //             Console.WriteLine("ERROR: Null reference to the list of possible moves. Empty list expected for no possible moves.");
-    //             return;
-    //         }
-    //         
-    //         foreach (Square square in moves)
-    //         {
-    //             square.Highlight();
-    //             _possibleMoves.Add(square);
-    //         }
-    //     }
-    // }
-
-    // private void ClearHighlights()
-    // {
-    //     foreach (Square square in _possibleMoves)
-    //         square.Unhighlight();
-    //     
-    //     _possibleMoves.Clear();
-    // }
 
     private int FlipColorIndex(int currentIndex)
     {

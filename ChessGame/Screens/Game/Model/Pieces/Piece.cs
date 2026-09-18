@@ -21,7 +21,6 @@ abstract class Piece : IPiece
     
     protected Piece(Square square, PlayerPieceColor playerPieceColor)
     {
-        // Console.WriteLine("Creating Piece");
         _currentSquare = square;
         _playerPieceColor = playerPieceColor; 
         _size = _currentSquare.Size;
@@ -36,8 +35,6 @@ abstract class Piece : IPiece
     public virtual string TextureId => _textureId;
     
     public virtual int Value { get; protected set; }
-    
-    public abstract void Update(GameTime gameTime);
 
     /// <summary>
     /// Scan for all possible moves from the Piece's current state and position.
@@ -51,7 +48,7 @@ abstract class Piece : IPiece
         spriteBatch.Draw(texture, new Rectangle(_currentSquare.PosX, _currentSquare.PosY, _size, _size),  Color.White);
     }
 
-    public virtual void MoveTo(Square square)
+    public virtual void SetSquare(Square square)
     {
         _currentSquare = square;
     }

@@ -61,6 +61,17 @@ public class PlayerController
         return piece.GetPossibleMoves(_board);
     }
 
+    public void MovePiece(IPiece piece, Square dest)
+    {
+        if (Pieces.Contains(piece))
+        {
+            _board.RemovePieceFromSquare(piece.CurrentSquare);
+            piece.SetSquare(dest);
+            _board.PlacePieceOnSquare(dest, piece);
+        }
+        else throw new ControllerException("The passed piece does not exist for current player...");
+    }
+
     private void InitPawns(PieceFactory pf)
     {
         Square[,] board = _board.Array();
@@ -70,7 +81,7 @@ public class PlayerController
             Square thisSquare = board[PieceColor == PlayerPieceColor.White ? 6 : 1, i];
             IPiece pawn = pf.CreatePiece(PieceFactory.PieceTypes.Pawn, thisSquare);
             
-            _board.PlacePiece(thisSquare, pawn);
+            _board.PlacePieceOnSquare(thisSquare, pawn);
             
             Pieces.Add(pawn);
             PawnCount += 1;
@@ -88,8 +99,8 @@ public class PlayerController
         IPiece rook1 = pf.CreatePiece(PieceFactory.PieceTypes.Rook, square1);
         IPiece rook2 = pf.CreatePiece(PieceFactory.PieceTypes.Rook, square2);
         
-        _board.PlacePiece(square1, rook1);
-        _board.PlacePiece(square2, rook2);
+        _board.PlacePieceOnSquare(square1, rook1);
+        _board.PlacePieceOnSquare(square2, rook2);
         
         Pieces.Add(rook1);
         Pieces.Add(rook2);
@@ -108,8 +119,8 @@ public class PlayerController
         IPiece knight1 = pf.CreatePiece(PieceFactory.PieceTypes.Knight, square1);
         IPiece knight2 = pf.CreatePiece(PieceFactory.PieceTypes.Knight, square2);
         
-        _board.PlacePiece(square1, knight1);
-        _board.PlacePiece(square2, knight2);
+        _board.PlacePieceOnSquare(square1, knight1);
+        _board.PlacePieceOnSquare(square2, knight2);
         
         Pieces.Add(knight1);
         Pieces.Add(knight2);
@@ -128,8 +139,8 @@ public class PlayerController
         IPiece bishop1 = pf.CreatePiece(PieceFactory.PieceTypes.Bishop, square1);
         IPiece bishop2 = pf.CreatePiece(PieceFactory.PieceTypes.Bishop, square2);
         
-        _board.PlacePiece(square1, bishop1);
-        _board.PlacePiece(square2, bishop2);
+        _board.PlacePieceOnSquare(square1, bishop1);
+        _board.PlacePieceOnSquare(square2, bishop2);
         
         Pieces.Add(bishop1);
         Pieces.Add(bishop2);
@@ -145,7 +156,7 @@ public class PlayerController
         Square square = board[rowIndex, 4];
         IPiece king = pf.CreatePiece(PieceFactory.PieceTypes.King, square);
         
-        _board.PlacePiece(square, king);
+        _board.PlacePieceOnSquare(square, king);
         
         Pieces.Add(king);
         KingCount += 1;
@@ -159,7 +170,7 @@ public class PlayerController
         Square square = board[rowIndex, 3];
         IPiece queen = pf.CreatePiece(PieceFactory.PieceTypes.Queen, square);
         
-        _board.PlacePiece(square, queen);
+        _board.PlacePieceOnSquare(square, queen);
         
         Pieces.Add(queen);
         QueenCount += 1;

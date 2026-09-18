@@ -14,12 +14,6 @@ sealed class Bishop : Piece
         Value = 3;
     }
 
-    public override void Update(GameTime gameTime)
-    {
-        // TODO: Implement Bishop.Update()
-        return;
-    }
-
     public override List<Square> GetPossibleMoves(Board board)
     {
         // TODO: Implement Bishop.GetPossibleMoves()

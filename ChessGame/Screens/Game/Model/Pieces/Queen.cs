@@ -14,11 +14,6 @@ sealed class Queen : Piece
         Value = 8;
     }
 
-    public override void Update(GameTime gameTime)
-    {
-        // TODO: Implement Queen.Update()
-    }
-
     public override List<Square> GetPossibleMoves(Board board)
     {
         // TODO: Implement Queen.GetPossibleMoves()

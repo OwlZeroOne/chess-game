@@ -32,12 +32,6 @@ public interface IPiece
     public List<Square> GetPossibleMoves(Board board);
     
     /// <summary>
-    /// Update Piece logic. To be called from the client's Update() method.
-    /// </summary>
-    /// <param name="gameTime"></param>
-    public void Update(GameTime gameTime);
-    
-    /// <summary>
     /// Draw the Piece. To be called from the client's Draw() method.
     /// </summary>
     public void Draw(SpriteBatch spriteBatch, Texture2D texture);
@@ -46,5 +40,5 @@ public interface IPiece
     /// 
     /// </summary>
     /// <param name="square"></param>
-    public void MoveTo(Square square);
+    public void SetSquare(Square square);
 }

@@ -14,11 +14,6 @@ sealed class King : Piece
         Value = 0;
     }
 
-    public override void Update(GameTime gameTime)
-    {
-        // TODO: Implement King.Update()
-    }
-
     public override List<Square> GetPossibleMoves(Board board)
     {
         // TODO: Implement King.GetPossibleMove()

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using ChessGame.Screens.Game.Model.Pieces;
 
@@ -39,6 +40,14 @@ public class ScreenModel
         OnSquareClicked(square);
     }
 
+    public void MoveSelectedPiece(Square dest)
+    {
+        // IPiece piece = SelectedSquare.Occupant;
+        // piece.SetSquare(dest);
+        // _board.PlacePiece(dest, piece);
+        CurrentPlayer.MovePiece(SelectedSquare.Occupant, dest);
+    }
+
     public List<IPiece> GetAllPieces()
     {
         List<IPiece> pieces = [];
@@ -51,15 +60,15 @@ public class ScreenModel
 
     private void OnSquareClicked(Square square)
     {
-        DeselectSquare();
-
         // If the item clicked is not a square...
         if (square == null)
         {
             DeselectSquare();
+            return;
         }
+        // Console.WriteLine($"Clicked on {square.GetName()}\nReference: {square.GetHashCode()}\nOccupied: {square.IsOccupied}\nIs Legal Move: {PossibleMoves.Contains(square)}");
         // If the item is a square (implied by previous clause) and is occupied... 
-        else if (square.IsOccupied)
+        if (square.IsOccupied)
         {
             IPiece occupant = square.Occupant;
             // If the occupant belongs to the current player...
@@ -75,11 +84,19 @@ public class ScreenModel
                 // If the set of possible moves contains the square...
                 if (PossibleMoves.Contains(square))
                 {
-                    // TODO: Move to square
+                    // Console.WriteLine("Move Piece on enemy-occupied square.");
+                    MoveSelectedPiece(square);
                 }
                 DeselectSquare();
             }
         }
+        else if (PossibleMoves.Contains(square))
+        {
+            // Console.WriteLine("Move Piece on empty square.");
+            MoveSelectedPiece(square);
+            DeselectSquare();
+        }
+        else DeselectSquare();
     }
 
     private void DeselectSquare()
@@ -91,6 +108,8 @@ public class ScreenModel
     private void CheckPossibleMoves()
     {
         PossibleMoves = CurrentPlayer.GetPossibleMoves(SelectedSquare.Occupant);
+        foreach (Square square in PossibleMoves)
+            Console.WriteLine(square.GetHashCode());
     }
 
     private void ClearPossibleMovesList()

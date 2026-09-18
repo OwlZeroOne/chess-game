@@ -14,12 +14,6 @@ sealed class Knight : Piece
         Value = 3;
     }
 
-    public override void Update(GameTime gameTime)
-    {
-        // TODO: Implement Knight.Update()
-        throw new NotImplementedException();
-    }
-
     public override List<Square> GetPossibleMoves(Board board)
     {
         List<Square> possibleMoves = new List<Square>();

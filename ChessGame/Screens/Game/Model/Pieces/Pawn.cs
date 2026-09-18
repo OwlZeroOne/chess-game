@@ -30,11 +30,6 @@ sealed class Pawn : Piece
 
         Value = 1;
     }
-
-    public override void Update(GameTime gameTime)
-    {
-        throw new NotImplementedException();
-    }
     
     public override List<Square> GetPossibleMoves(Board board)
     {
@@ -66,6 +61,12 @@ sealed class Pawn : Piece
     public IPiece Promote()
     {
         throw new NotImplementedException("This method is not implemented");
+    }
+
+    public override void SetSquare(Square square)
+    {
+        base.SetSquare(square);
+        _firstMove = false;
     }
 
     /// <summary>

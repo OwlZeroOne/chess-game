@@ -78,37 +78,10 @@ public class Square
         return $"{file}{rank}";
     }
 
-    /// <summary>
-    /// Occupy this square with a given piece. If the square is occupied, attacking logic will be executed.
-    /// </summary>
-    /// <param name="newOccupier">The occupying piece.</param>
-    /// <exception cref="NotImplementedException">Attacking logic is still to be implemented.</exception>
-    public void Occupy(IPiece newOccupier)
+    public void SetOccupant(IPiece newOccupant)
     {
-        if (IsOccupied)
-        {
-            //TODO: Implement attacking logic
-            throw new NotImplementedException("TODO: Implement attacking logic");
-        }
-        else
-        {
-            Occupant = newOccupier;
-            Occupant.MoveTo(this);
-            IsOccupied = true;
-        }
-    }
-
-    /// <summary>
-    /// Free this square after a piece vacates it. If the square is already
-    /// vacated, the process is omitted.
-    /// </summary>
-    public void Vacate()
-    {
-        if (IsOccupied)
-        {
-            IsOccupied = false;
-            Occupant = null;
-        }
+        Occupant = newOccupant;
+        IsOccupied = newOccupant != null;
     }
 
     // public void Draw(SpriteBatch spriteBatch)

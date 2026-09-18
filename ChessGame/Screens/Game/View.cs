@@ -61,7 +61,7 @@ public class View
     {
         foreach (var piece in _model.GetAllPieces())
         {
-            Console.WriteLine(piece.TextureId == null ? "NONE" : piece.TextureId);
+            // Console.WriteLine(piece.TextureId == null ? "NONE" : piece.TextureId);
             piece.Draw(spriteBatch, _textures[piece.TextureId]);
         }
     }

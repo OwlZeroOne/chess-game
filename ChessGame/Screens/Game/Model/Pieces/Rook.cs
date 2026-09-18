@@ -16,11 +16,6 @@ sealed class Rook : Piece
         Value = 5;
     }
 
-    public override void Update(GameTime gameTime)
-    {
-        throw new NotImplementedException();
-    }
-
     public override List<Square> GetPossibleMoves(Board board)
     {
         List<Square> possibleMoves = new List<Square>();

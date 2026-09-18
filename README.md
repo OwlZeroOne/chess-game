@@ -1,16 +1,32 @@
 # MonoGame Chess
 
-## Current Game State (Iteration 5.3)
+## Current Game State (Iteration 6)
 
-Move detection has been brought to the same state as found in Iteration 4, and thus, the game state has been restored to how it was before Iteration 5.1. The only, negligible, difference is the absence of the label which indicated who is the current turn-taker.
+Piece movement is in progress. Pawns are capable of pushing forward, with two possible moves on their first run. Knights also are capable of moving. However, move detection appears to be incomplete for both, since Knights can only move north and south, but not east and west. Pawns detec allied pieces as attacking moves. This will be an easy fix in further iterations. 
 
-<img src="resources/iteration5-3-checkerboard.gif" alt="iteration5-2-checkerboard">
+<img src="resources/iteration6-checkerboard.gif" alt="iteration5-2-checkerboard">
+
+Looking at the game's design, shown below, several issues already exist - such as the `ScreenModel`, which is directly coupled with both the `Square` and `Board` objects, while the `Board` is supposed to manage the squares.
+
+<img src="resources/iteration6-design.png" alt="iteration6-design">
 
 ### Next Steps
 
-- Implement piece movement, with respect to their role in the game, and complete possible move highlighting for other pieces.
+- [IN PROGRESS] Implement piece movement, with respect to their role in the game, and complete possible move highlighting for other pieces.
+- Loosen coupling where necessary/possible:
+	- ModelScreen, Square, Board
+	- PlayerController, PieceFactory, PlayerPieceColor
+ 	- PlayerController, Board
+	- View, BoardProperties
+	- Screen, ScreenModel
 
 ## Previous Iterations
+
+## Iteration 5.3 - Move Detection Back In Place
+
+Move detection has been brought to the same state as found in Iteration 4, and thus, the game state has been restored to how it was before Iteration 5.1. The only, negligible, difference is the absence of the label which indicated who is the current turn-taker.
+
+<img src="resources/iteration5-3-checkerboard.gif" alt="iteration5-3-checkerboard">
 
 ### Iteration 5.2 - Piece Rendering Back In Place
 
