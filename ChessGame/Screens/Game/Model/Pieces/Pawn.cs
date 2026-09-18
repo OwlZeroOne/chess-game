@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace ChessGame.Models.Pieces;
+namespace ChessGame.Screens.Game.Model.Pieces;
 
 sealed class Pawn : Piece
 {
@@ -12,7 +12,7 @@ sealed class Pawn : Piece
     private bool _firstMove;
     private readonly int _promotionRowIndex;
     
-    public Pawn(Texture2D texture, Square square, PlayerPieceColor playerPieceColor) : base(texture, square, playerPieceColor)
+    public Pawn(Square square, PlayerPieceColor playerPieceColor) : base(square, playerPieceColor)
     {
         switch (playerPieceColor)
         {
@@ -30,18 +30,13 @@ sealed class Pawn : Piece
 
         Value = 1;
     }
-
-    public override void Update(GameTime gameTime)
-    {
-        throw new NotImplementedException();
-    }
     
-    public override List<Square> GetPossibleMoves(IBoard board)
+    public override List<Square> GetPossibleMoves(Board board)
     {
         List<Square> possibleMoves = new List<Square>();
         int i = _currentSquare.RowIndex;
         int j = _currentSquare.ColumnIndex;
-        Square[,] boardArray = board.GetArray();
+        Square[,] boardArray = board.Array();
         possibleMoves.AddRange(CheckForwardMoves(i, j, boardArray));
         possibleMoves.AddRange(CheckAttackMoves(i, j, boardArray));
         return possibleMoves;
@@ -66,6 +61,12 @@ sealed class Pawn : Piece
     public IPiece Promote()
     {
         throw new NotImplementedException("This method is not implemented");
+    }
+
+    public override void SetSquare(Square square)
+    {
+        base.SetSquare(square);
+        _firstMove = false;
     }
 
     /// <summary>

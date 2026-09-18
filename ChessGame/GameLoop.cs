@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using ChessGame.Models.Pieces;
+using ChessGame.Screens.Game;
 using ChessGame.Views;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -11,7 +11,7 @@ public class GameLoop : Game
 {
     private GraphicsDeviceManager _graphics;
     private SpriteBatch _spriteBatch;
-    private IView _currentView;
+    private IScreen _currentScreen;
     
     public GameLoop()
     {
@@ -26,51 +26,34 @@ public class GameLoop : Game
 
     protected override void Initialize()
     {
-        // TODO: Add your initialization logic here
-        _currentView = new GameView();
+        _currentScreen = new Screen();
         base.Initialize();
     }
 
     protected override void LoadContent()
     {
+        _currentScreen.LoadContent(GraphicsDevice, Content);
         _spriteBatch = new SpriteBatch(GraphicsDevice);
-        
-        PieceFactory.Textures["w_pawn"] =  Content.Load<Texture2D>("Pieces/w_Pawn");
-        PieceFactory.Textures["w_rook"] =  Content.Load<Texture2D>("Pieces/w_Rook");
-        PieceFactory.Textures["w_knight"] =  Content.Load<Texture2D>("Pieces/w_Knight");
-        PieceFactory.Textures["w_bishop"] =  Content.Load<Texture2D>("Pieces/w_Bishop");
-        PieceFactory.Textures["w_king"] =  Content.Load<Texture2D>("Pieces/w_King");
-        PieceFactory.Textures["w_queen"] =  Content.Load<Texture2D>("Pieces/w_Queen");
-        PieceFactory.Textures["b_pawn"] =  Content.Load<Texture2D>("Pieces/b_Pawn");
-        PieceFactory.Textures["b_rook"] =  Content.Load<Texture2D>("Pieces/b_Rook");
-        PieceFactory.Textures["b_knight"] =  Content.Load<Texture2D>("Pieces/b_Knight");
-        PieceFactory.Textures["b_bishop"] =  Content.Load<Texture2D>("Pieces/b_Bishop");
-        PieceFactory.Textures["b_king"] =  Content.Load<Texture2D>("Pieces/b_King");
-        PieceFactory.Textures["b_queen"] =  Content.Load<Texture2D>("Pieces/b_Queen");
-
-        // TODO: use this.Content to load your game content here
-        _currentView.LoadContent(GraphicsDevice, Content);
     }
 
     protected override void Update(GameTime gameTime)
     {
-        if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed ||
-            Keyboard.GetState().IsKeyDown(Keys.Escape))
+        if (Keyboard.GetState().IsKeyDown(Keys.Escape))
             Exit();
 
-        // TODO: Add your update logic here
-        _currentView.Update(gameTime, Mouse.GetState(), Keyboard.GetState());
-        
+        _currentScreen.Update(gameTime);
         base.Update(gameTime);
     }
 
     protected override void Draw(GameTime gameTime)
     {
         GraphicsDevice.Clear(Color.CornflowerBlue);
-
-        // TODO: Add your drawing code here
-        _currentView.Draw(gameTime, _spriteBatch);
         
+        _spriteBatch.Begin();
+        
+        _currentScreen.Draw(gameTime, _spriteBatch);
         base.Draw(gameTime);
+        
+        _spriteBatch.End();
     }
 }

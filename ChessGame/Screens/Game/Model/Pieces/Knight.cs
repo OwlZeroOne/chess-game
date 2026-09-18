@@ -3,29 +3,23 @@ using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace ChessGame.Models.Pieces;
+namespace ChessGame.Screens.Game.Model.Pieces;
 
 sealed class Knight : Piece
 {
     public class KnightException(string message) : Exception(message);
 
-    public Knight(Texture2D texture, Square square, PlayerPieceColor playerPieceColor) : base(texture, square, playerPieceColor)
+    public Knight(Square square, PlayerPieceColor playerPieceColor) : base(square, playerPieceColor)
     {
         Value = 3;
     }
 
-    public override void Update(GameTime gameTime)
-    {
-        // TODO: Implement Knight.Update()
-        throw new NotImplementedException();
-    }
-
-    public override List<Square> GetPossibleMoves(IBoard board)
+    public override List<Square> GetPossibleMoves(Board board)
     {
         List<Square> possibleMoves = new List<Square>();
         int i = _currentSquare.RowIndex;
         int j = _currentSquare.ColumnIndex;
-        Square[,] boardArray = board.GetArray();
+        Square[,] boardArray = board.Array();
         possibleMoves.AddRange(CheckMovesVertical(i, j, boardArray));
         
         // TODO: Implement Knight.GetPossibleMoves()

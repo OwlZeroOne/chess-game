@@ -6,11 +6,15 @@ using Microsoft.Xna.Framework.Input;
 
 namespace ChessGame.Views;
 
-public interface IView
+public interface IScreen
 {
+    void Initialize();
+    
     void LoadContent(GraphicsDevice graphicsDevice, ContentManager content);
     
-    void Update(GameTime gameTime, MouseState mouseState, KeyboardState keyboardState);
+    void Update(GameTime gameTime);
     
     void Draw(GameTime gameTime, SpriteBatch spriteBatch);
+    
+    void UnloadContent();
 }

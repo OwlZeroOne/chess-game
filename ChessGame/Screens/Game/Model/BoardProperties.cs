@@ -1,6 +1,6 @@
 using Microsoft.Xna.Framework;
 
-namespace ChessGame.Models;
+namespace ChessGame.Screens.Game.Model;
 
 public static class BoardProperties
 {
@@ -24,15 +24,15 @@ public static class BoardProperties
     /// <summary>
     /// Primary color for the checkerboard.
     /// </summary>
-    public static readonly Color CheckerColor1 = new Color(45, 139, 153);
+    public static readonly Color SquareColor1 = new Color(45, 139, 153);
     
     /// <summary>
     /// Secondary color for the checkerboard.
     /// </summary>
-    public static readonly Color CheckerColor2 = new Color(237, 215, 197);
+    public static readonly Color SquareColor2 = new Color(237, 215, 197);
     
     public static readonly Color SquareHighlightColor = Color.Goldenrod;
     
     
-    public static readonly Color BorderColor = Color.Black;
+    public static readonly Color SquareBorderColor = Color.Black;
 }

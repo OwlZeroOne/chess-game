@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace ChessGame.Models;
+namespace ChessGame.Screens.Game.Model.Pieces;
 
 public interface IPiece
 {
@@ -17,6 +17,11 @@ public interface IPiece
     public PlayerPieceColor PieceColor { get; }
     
     /// <summary>
+    /// Returns texture label identifier for texture rendering.
+    /// </summary>
+    public string TextureId { get; }
+    
+    /// <summary>
     /// Returns the worth value property that corresponds to the piece. Varies between different Piece types.
     /// </summary>
     public int Value { get; }
@@ -24,22 +29,16 @@ public interface IPiece
     /// <summary>
     /// Returns the list of legal moves consisting of Square objects. Varies between different Piece types.
     /// </summary>
-    public List<Square> GetPossibleMoves(IBoard board);
-    
-    /// <summary>
-    /// Update Piece logic. To be called from the client's Update() method.
-    /// </summary>
-    /// <param name="gameTime"></param>
-    public void Update(GameTime gameTime);
+    public List<Square> GetPossibleMoves(Board board);
     
     /// <summary>
     /// Draw the Piece. To be called from the client's Draw() method.
     /// </summary>
-    public void Draw(SpriteBatch spriteBatch);
+    public void Draw(SpriteBatch spriteBatch, Texture2D texture);
     
     /// <summary>
     /// 
     /// </summary>
     /// <param name="square"></param>
-    public void MoveTo(Square square);
+    public void SetSquare(Square square);
 }
